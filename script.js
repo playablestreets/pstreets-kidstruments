@@ -40,7 +40,6 @@ function setup() {
 
 	windowResized();
 	currentColor = color(255);
-
 }
 
 function draw() {
@@ -62,21 +61,26 @@ function draw() {
 	}
 }
 
+function getColor() {
+	let foundColor = color(...get(mouseX, mouseY));
+	return foundColor;
+}
 
 //TODO more effiecient get... look up pixel array directly
 function update() {
-	if(mouseIsPressed){
-		currentColor = color(...get(mouseX, mouseY));
+	if (mouseIsPressed) {
+		currentColor = getColor();
+
 		// hueUI = createElement('h2', currentColor._getHue());
-		if(currentColor._getSaturation() > 20){
+		if (currentColor._getSaturation() > 20) {
 			currentHue = currentColor._getHue();
 		}
-		else{
+		else {
 			currentHue = -1;
 		}
-		
+
 		hueUI.elt.innerText = parseInt(currentHue);
-		hueUI.elt.style.color = "#000000";
+		hueUI.elt.style.color = '#000000';
 	}
 }
 
