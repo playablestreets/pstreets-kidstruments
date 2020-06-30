@@ -10,6 +10,9 @@ var lastTouched = getElapsed();
 var instrumentImage;
 var maskImage;
 var currentColor;
+var currentHue;
+var hueUI;
+// var hueslider;
 
 function preload() {
 	instrumentImage = loadImage('assets/Daphne_7_3916.png');
@@ -28,6 +31,7 @@ function windowResized() {
 //SETUP_________________________________
 function setup() {
 	console.log('hi');
+	hueUI = createElement('h2', 'nothin has happened');
 
 	// Create the canvas
 	canvas = createCanvas(windowWidth, windowHeight);
@@ -63,19 +67,28 @@ function draw() {
 function update() {
 	if(mouseIsPressed){
 		currentColor = color(...get(mouseX, mouseY));
-		console.log(currentColor);
+		// hueUI = createElement('h2', currentColor._getHue());
+		if(currentColor._getSaturation() > 20){
+			currentHue = currentColor._getHue();
+		}
+		else{
+			currentHue = -1;
+		}
+		
+		hueUI.elt.innerText = parseInt(currentHue);
+		hueUI.elt.style.color = "#000000";
 	}
 }
 
 function mousePressed() {
 	lastTouched = getElapsed();
-	console.log('touched ' + lastTouched);
+	console.log('touched at ' + lastTouched + 'ms');
 
 	// step();
 }
 
 function mouseReleased() {
-	console.log('released');
+	console.log('released after ' + (getElapsed() - lastTouched) + 'ms');
 	// stop();
 }
 
