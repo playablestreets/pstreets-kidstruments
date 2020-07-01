@@ -14,12 +14,14 @@ var currentHue;
 var hueUI;
 var normMouseX;
 var normMouseY;
+var maskImageScale = 8;
+var drawScale = 0.5;
+var offset = [ 0, 0 ];
 // var hueslider;
 
 function preload() {
 	instrumentImage = loadImage('assets/Daphne_7_3916.png');
 	maskImage = loadImage('assets/Daphne_7_3916-MASK.png');
-	maskImage.loadPixels();
 }
 
 function getElapsed() {
@@ -29,6 +31,14 @@ function getElapsed() {
 
 function windowResized() {
 	resizeCanvas(windowWidth, windowHeight);
+
+	let xOffset = width / 2 - maskImage.width * drawScale / 2;
+	let yOffset = height / 2 - maskImage.height * drawScale / 2;
+
+	offset = {
+		x: xOffset,
+		y: yOffset
+	};
 }
 
 //SETUP_________________________________
@@ -43,19 +53,35 @@ function setup() {
 
 	windowResized();
 	currentColor = color(255);
+
+	maskImage.resize(maskImage.width / maskImageScale, maskImage.height / maskImageScale);
+	maskImage.loadPixels();
 }
 
 function draw() {
 	update();
 
-
 	background(255, 100);
 	fill(255);
-	// image(maskImage, width / 2 - imageWidth / 2, height / 2 - imageHeight / 2, imageWidth, imageHeight);
-	image(maskImage,0 , 0, maskImage.width/2, maskImage.height/2);
+	//if(drawMask){
+	// image(
+	// 	maskImage,
+	// 	offset.x,
+	// 	offset.y,
+	// 	maskImage.width * maskImageScale * drawScale,
+	// 	maskImage.height * maskImageScale * drawScale
+	// );
+	//}
+	image(
+		instrumentImage,
+		offset.x,
+		offset.y,
+		instrumentImage.width  * drawScale,
+		instrumentImage.height * drawScale
+	);
 
 	if (mouseX > 10 && mouseX < width - 10 && (mouseY > 10 && mouseY < height - 10)) {
-		let ellipseWidth = mouseIsPressed ? 40 : 20;
+		let ellipseWidth = mouseIsPressed ? 70 : 30;
 		stroke(240, 100);
 		strokeWeight(5);
 		// fill();
@@ -70,7 +96,12 @@ function getColor() {
 
 	//do the opposite scaling to sampling coords
 	//as is done to the image beingdrawn.
-	let foundColor = color(...maskImage.get(mouseX*2, mouseY*2));
+	let foundColor = color(
+		...maskImage.get(
+			(mouseX - offset.x) / maskImageScale / drawScale ,
+			(mouseY - offset.y) / maskImageScale / drawScale 
+		)
+	);
 
 	//  this approach might be faster...
 	//  let d = pixelDensity();
@@ -87,8 +118,6 @@ function getColor() {
 	return foundColor;
 }
 
-
-
 function update() {
 	if (mouseIsPressed) {
 		currentColor = getColor();
@@ -104,7 +133,7 @@ function update() {
 		hueUI.elt.innerText = parseInt(currentHue);
 		hueUI.elt.style.color = '#999999';
 	}
-	else{
+	else {
 		currentColor = color(255);
 	}
 }
@@ -121,22 +150,19 @@ function mouseReleased() {
 	// stop();
 }
 
-function mouseMoved(){
+function mouseMoved() {
 	// getColor();
 }
 
-function getNormMouse(){
-	let normMouseX = mouseX/width;
-	let normMouseY = mouseY/height;
+function getNormMouse() {
+	let normMouseX = mouseX / width;
+	let normMouseY = mouseY / height;
 	let obj = {
 		x: normMouseX,
 		y: normMouseY
-	}
+	};
 	return obj;
 }
-
-
-
 
 // document.getElementById('playbutton').onclick = step;
 // document.getElementById('playbutton').onmousedown = step;
