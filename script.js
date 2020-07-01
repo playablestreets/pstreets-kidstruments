@@ -19,6 +19,7 @@ var normMouseY;
 function preload() {
 	instrumentImage = loadImage('assets/Daphne_7_3916.png');
 	maskImage = loadImage('assets/Daphne_7_3916-MASK.png');
+	maskImage.loadPixels();
 }
 
 function getElapsed() {
@@ -47,33 +48,46 @@ function setup() {
 function draw() {
 	update();
 
-	let imageWidth = instrumentImage.width / 2;
-	let imageHeight = instrumentImage.height / 2;
 
 	background(255, 100);
 	fill(255);
-	image(maskImage, width / 2 - imageWidth / 2, height / 2 - imageHeight / 2, imageWidth, imageHeight);
+	// image(maskImage, width / 2 - imageWidth / 2, height / 2 - imageHeight / 2, imageWidth, imageHeight);
+	image(maskImage,0 , 0, maskImage.width/2, maskImage.height/2);
 
 	if (mouseX > 10 && mouseX < width - 10 && (mouseY > 10 && mouseY < height - 10)) {
-		let ellipseWidth = mouseIsPressed ? 60 : 30;
-		stroke(currentColor);
+		let ellipseWidth = mouseIsPressed ? 40 : 20;
+		stroke(240, 100);
 		strokeWeight(5);
-		fill(240, 100);
+		// fill();
+		fill(currentColor);
 		ellipse(mouseX, mouseY, ellipseWidth);
 	}
 }
 
 function getColor() {
-	let foundColor = color(...get(mouseX, mouseY));
 	//  aim:  to access pixels from mask image as effieciently as possible
-	//				accounting for image scaling
-	//  scaling  reference...
-	//	image(maskImage, width / 2 - imageWidth / 2, height / 2 - imageHeight / 2, imageWidth, imageHeight);
-	//  image(x, y, w, h)
-	// NORM COORDS??
+	//				accounting for image scaling and transformation
+
+	//do the opposite scaling to sampling coords
+	//as is done to the image beingdrawn.
+	let foundColor = color(...maskImage.get(mouseX*2, mouseY*2));
+
+	//  this approach might be faster...
+	//  let d = pixelDensity();
+	//  let off = (y * maskImage.width + x) * d * 4;
+	//  let components = [
+	// 	maskImage.pixels[off],
+	// 	maskImage.pixels[off + 1],
+	// 	maskImage.pixels[off + 2],
+	// 	maskImage.pixels[off + 3]
+	//  ];
+	//  print(components);
+	//  let foundColor = color(...components);
 
 	return foundColor;
 }
+
+
 
 function update() {
 	if (mouseIsPressed) {
@@ -88,7 +102,10 @@ function update() {
 		}
 
 		hueUI.elt.innerText = parseInt(currentHue);
-		hueUI.elt.style.color = '#000000';
+		hueUI.elt.style.color = '#999999';
+	}
+	else{
+		currentColor = color(255);
 	}
 }
 
@@ -104,7 +121,9 @@ function mouseReleased() {
 	// stop();
 }
 
-
+function mouseMoved(){
+	// getColor();
+}
 
 function getNormMouse(){
 	let normMouseX = mouseX/width;
