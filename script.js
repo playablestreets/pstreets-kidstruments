@@ -5,6 +5,17 @@
 // var numBanks = 8;
 // var bankLengths = [ 176, 91, 16, 31, 12, 161, 11, 16 ];
 
+let synth;
+let notes = [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ];
+// let colores = [0, 20, 40, 90, 130, 170, 210];
+let octaves = [ '2', '3', '4', '5', '6', '7' ];
+let tonos = [ 105, 135, 165, 195, 225, 255 ];
+let divX;
+let divY;
+let oldIsPressed = false;
+let isPressed = false;
+let oldnoteoctave = '';
+
 let drawMask = false;
 
 var startTime = new Date();
@@ -32,10 +43,13 @@ function getElapsed() {
 }
 
 function windowResized() {
-	// let xOffset = width / 2 - (maskImage.width * drawScale) / 2;
-	// let yOffset = height / 2 - (maskImage.height * drawScale) / 2;
-	let xOffset = 0;
-	let yOffset = 0;
+	let xOffset = width / 2 
+	xOffset -= (instrumentImage.width * drawScale)/2;
+	let yOffset = height / 2 
+	yOffset -= (instrumentImage.height * drawScale)/2;
+	console.log(xOffset, yOffset);
+	// let xOffset = 0;
+	// let yOffset = 0;
 	offset = {
 		x: xOffset,
 		y: yOffset
@@ -47,6 +61,10 @@ function windowResized() {
 //SETUP_________________________________
 function setup() {
 	console.log('hi');
+
+	//set up synth
+	synth = new Tone.Synth().toMaster();
+
 	hueUI = createElement('h2', 'nothin has happened');
 
 	// Create the canvas
