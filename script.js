@@ -5,6 +5,8 @@
 // var numBanks = 8;
 // var bankLengths = [ 176, 91, 16, 31, 12, 161, 11, 16 ];
 
+let drawMask = false;
+
 var startTime = new Date();
 var lastTouched = getElapsed();
 var instrumentImage;
@@ -14,7 +16,7 @@ var currentHue;
 var hueUI;
 var normMouseX;
 var normMouseY;
-var maskImageScale = 8;
+var maskImageScale = 32;
 var drawScale = 0.5;
 var offset = [ 0, 0 ];
 // var hueslider;
@@ -30,15 +32,16 @@ function getElapsed() {
 }
 
 function windowResized() {
-	resizeCanvas(windowWidth, windowHeight);
-
-	let xOffset = width / 2 - maskImage.width * drawScale / 2;
-	let yOffset = height / 2 - maskImage.height * drawScale / 2;
-
+	// let xOffset = width / 2 - (maskImage.width * drawScale) / 2;
+	// let yOffset = height / 2 - (maskImage.height * drawScale) / 2;
+	let xOffset = 0;
+	let yOffset = 0;
 	offset = {
 		x: xOffset,
 		y: yOffset
 	};
+
+	resizeCanvas(windowWidth, windowHeight);
 }
 
 //SETUP_________________________________
@@ -51,11 +54,11 @@ function setup() {
 	canvas.position(0, 0);
 	canvas.style('z-index', -1);
 
-	windowResized();
-	currentColor = color(255);
-
 	maskImage.resize(maskImage.width / maskImageScale, maskImage.height / maskImageScale);
 	maskImage.loadPixels();
+
+	windowResized();
+	currentColor = color(255);
 }
 
 function draw() {
@@ -63,22 +66,18 @@ function draw() {
 
 	background(255, 100);
 	fill(255);
-	//if(drawMask){
-	// image(
-	// 	maskImage,
-	// 	offset.x,
-	// 	offset.y,
-	// 	maskImage.width * maskImageScale * drawScale,
-	// 	maskImage.height * maskImageScale * drawScale
-	// );
-	//}
-	image(
-		instrumentImage,
-		offset.x,
-		offset.y,
-		instrumentImage.width  * drawScale,
-		instrumentImage.height * drawScale
-	);
+
+	image(instrumentImage, offset.x, offset.y, instrumentImage.width * drawScale, instrumentImage.height * drawScale);
+
+	if (drawMask) {
+		image(
+			maskImage,
+			offset.x,
+			offset.y,
+			maskImage.width * maskImageScale * drawScale,
+			maskImage.height * maskImageScale * drawScale
+		);
+	}
 
 	if (mouseX > 10 && mouseX < width - 10 && (mouseY > 10 && mouseY < height - 10)) {
 		let ellipseWidth = mouseIsPressed ? 70 : 30;
@@ -97,10 +96,7 @@ function getColor() {
 	//do the opposite scaling to sampling coords
 	//as is done to the image beingdrawn.
 	let foundColor = color(
-		...maskImage.get(
-			(mouseX - offset.x) / maskImageScale / drawScale ,
-			(mouseY - offset.y) / maskImageScale / drawScale 
-		)
+		...maskImage.get((mouseX - offset.x) / maskImageScale / drawScale, (mouseY - offset.y) / maskImageScale / drawScale)
 	);
 
 	//  this approach might be faster...
