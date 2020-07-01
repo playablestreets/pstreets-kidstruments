@@ -12,6 +12,8 @@ var maskImage;
 var currentColor;
 var currentHue;
 var hueUI;
+var normMouseX;
+var normMouseY;
 // var hueslider;
 
 function preload() {
@@ -53,7 +55,7 @@ function draw() {
 	image(maskImage, width / 2 - imageWidth / 2, height / 2 - imageHeight / 2, imageWidth, imageHeight);
 
 	if (mouseX > 10 && mouseX < width - 10 && (mouseY > 10 && mouseY < height - 10)) {
-		let ellipseWidth = mouseIsPressed ? 65 : 50;
+		let ellipseWidth = mouseIsPressed ? 60 : 30;
 		stroke(currentColor);
 		strokeWeight(5);
 		fill(240, 100);
@@ -63,10 +65,16 @@ function draw() {
 
 function getColor() {
 	let foundColor = color(...get(mouseX, mouseY));
+	//  aim:  to access pixels from mask image as effieciently as possible
+	//				accounting for image scaling
+	//  scaling  reference...
+	//	image(maskImage, width / 2 - imageWidth / 2, height / 2 - imageHeight / 2, imageWidth, imageHeight);
+	//  image(x, y, w, h)
+	// NORM COORDS??
+
 	return foundColor;
 }
 
-//TODO more effiecient get... look up pixel array directly
 function update() {
 	if (mouseIsPressed) {
 		currentColor = getColor();
@@ -87,7 +95,7 @@ function update() {
 function mousePressed() {
 	lastTouched = getElapsed();
 	console.log('touched at ' + lastTouched + 'ms');
-
+	console.log(getNormMouse());
 	// step();
 }
 
@@ -95,6 +103,21 @@ function mouseReleased() {
 	console.log('released after ' + (getElapsed() - lastTouched) + 'ms');
 	// stop();
 }
+
+
+
+function getNormMouse(){
+	let normMouseX = mouseX/width;
+	let normMouseY = mouseY/height;
+	let obj = {
+		x: normMouseX,
+		y: normMouseY
+	}
+	return obj;
+}
+
+
+
 
 // document.getElementById('playbutton').onclick = step;
 // document.getElementById('playbutton').onmousedown = step;
