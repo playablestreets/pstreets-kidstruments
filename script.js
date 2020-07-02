@@ -86,6 +86,7 @@ function setup() {
 	canvas.position(0, 0);
 	canvas.style('z-index', -1);
 
+
 	//set up mask image
 	maskImage.resize(maskImage.width / maskImageScale, maskImage.height / maskImageScale);
 	maskImage.loadPixels();
@@ -98,7 +99,16 @@ function setup() {
 function draw() {
 	update();
 
-	background(255, 100);
+
+	if(isPressed){
+		colorMode(HSB);
+		// background(millis()* 0.1 % 360, 50, 100, 0.2);
+		background(currentHue, 50, 100, 0.2);
+		colorMode(RGB);
+	}else{
+			background(255, 100);
+	}
+
 	fill(255);
 
 	image(instrumentImage, offset.x, offset.y, instrumentImage.width * drawScale, instrumentImage.height * drawScale);
