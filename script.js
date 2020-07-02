@@ -12,9 +12,10 @@ let octaves = [ '2', '3', '4', '5', '6', '7' ];
 let tonos = [ 105, 135, 165, 195, 225, 255 ];
 let divX;
 let divY;
-let oldIsPressed = false;
+// let oldIsPressed = false;
 let isPressed = false;
-let oldnoteoctave = '';
+let lastNote = '';
+let isPlaying = false;
 
 let drawMask = false;
 
@@ -37,16 +38,11 @@ function preload() {
 	maskImage = loadImage('assets/Daphne_7_3916-MASK.png');
 }
 
-function getElapsed() {
-	let endTime = new Date();
-	return (timeDiff = endTime - startTime); //in ms
-}
-
 function windowResized() {
-	let xOffset = width / 2 
-	xOffset -= (instrumentImage.width * drawScale)/2;
-	let yOffset = height / 2 
-	yOffset -= (instrumentImage.height * drawScale)/2;
+	let xOffset = width / 2;
+	xOffset -= instrumentImage.width * drawScale / 2;
+	let yOffset = height / 2;
+	yOffset -= instrumentImage.height * drawScale / 2;
 	console.log(xOffset, yOffset);
 	// let xOffset = 0;
 	// let yOffset = 0;
@@ -58,27 +54,47 @@ function windowResized() {
 	resizeCanvas(windowWidth, windowHeight);
 }
 
-//SETUP_________________________________
+///SETUP
 function setup() {
 	console.log('hi');
 
 	//set up synth
-	synth = new Tone.Synth().toMaster();
+	synth = new Tone.Synth({
+		oscillator: {
+			type: 'amtriangle',
+			harmonicity: 0.5,
+			modulationType: 'sine'
+		},
+		envelope: {
+			attackCurve: 'exponential',
+			attack: 0.05,
+			decay: 0.2,
+			sustain: 0.2,
+			release: 1.5
+		},
+		portamento: 0.05
+	}).toMaster();
+	divX = width / notes.length;
+	divY = height / octaves.length;
 
+	//debug gui
 	hueUI = createElement('h2', 'nothin has happened');
+	currentColor = color(255);
 
 	// Create the canvas
 	canvas = createCanvas(windowWidth, windowHeight);
 	canvas.position(0, 0);
 	canvas.style('z-index', -1);
 
+	//set up mask image
 	maskImage.resize(maskImage.width / maskImageScale, maskImage.height / maskImageScale);
 	maskImage.loadPixels();
 
+	//resize window to init
 	windowResized();
-	currentColor = color(255);
 }
 
+///DRAW
 function draw() {
 	update();
 
@@ -98,12 +114,60 @@ function draw() {
 	}
 
 	if (mouseX > 10 && mouseX < width - 10 && (mouseY > 10 && mouseY < height - 10)) {
-		let ellipseWidth = mouseIsPressed ? 70 : 30;
+		let ellipseWidth = mouseIsPressed ? 70 : 0;
 		stroke(240, 100);
 		strokeWeight(5);
 		// fill();
 		fill(currentColor);
 		ellipse(mouseX, mouseY, ellipseWidth);
+	}
+}
+
+///UPDATE
+function update() {
+	// if (Tone.context.state != 'running') {
+	// 	console.log('starting tone.js');
+	// 	Tone.start();
+	// }
+
+	//color picking
+	if (isPressed) {
+		currentColor = getColor();
+
+		// hueUI = createElement('h2', currentColor._getHue());
+		if (currentColor._getSaturation() > 20) {
+			currentHue = currentColor._getHue();
+		}
+		else {
+			currentHue = -1;
+		}
+
+		hueUI.elt.innerText = parseInt(currentHue);
+		hueUI.elt.style.color = '#999999';
+	}
+	else {
+		currentColor = color(255);
+	}
+
+	if (isPressed) {
+		// let note = Math.round((mouseX + divX / 2) / divX) - 1;
+		// let octave = Math.round((mouseY + divY / 2) / divY) - 1;
+		// note = notes[note] + octaves[octave];
+
+		// if (lastNote != note) {
+			// lastNote = note;
+			// console.log('release');
+			// synth.triggerRelease();
+			console.log('trigger');
+			synth.triggerAttack(400);
+		// }
+	}
+	else {
+		// if (lastNote != '') {
+			// lastNote = '';
+			console.log('Release');
+			synth.triggerRelease();
+		// }
 	}
 }
 
@@ -132,42 +196,6 @@ function getColor() {
 	return foundColor;
 }
 
-function update() {
-	if (mouseIsPressed) {
-		currentColor = getColor();
-
-		// hueUI = createElement('h2', currentColor._getHue());
-		if (currentColor._getSaturation() > 20) {
-			currentHue = currentColor._getHue();
-		}
-		else {
-			currentHue = -1;
-		}
-
-		hueUI.elt.innerText = parseInt(currentHue);
-		hueUI.elt.style.color = '#999999';
-	}
-	else {
-		currentColor = color(255);
-	}
-}
-
-function mousePressed() {
-	lastTouched = getElapsed();
-	console.log('touched at ' + lastTouched + 'ms');
-	console.log(getNormMouse());
-	// step();
-}
-
-function mouseReleased() {
-	console.log('released after ' + (getElapsed() - lastTouched) + 'ms');
-	// stop();
-}
-
-function mouseMoved() {
-	// getColor();
-}
-
 function getNormMouse() {
 	let normMouseX = mouseX / width;
 	let normMouseY = mouseY / height;
@@ -176,6 +204,41 @@ function getNormMouse() {
 		y: normMouseY
 	};
 	return obj;
+}
+
+function getElapsed() {
+	let endTime = new Date();
+	return (timeDiff = endTime - startTime); //in ms
+}
+
+function go() {
+	isPressed = true;
+	lastTouched = getElapsed();
+	console.log('go at ' + lastTouched + 'ms');
+	console.log(getNormMouse());
+}
+
+function stop() {
+	isPressed = false;
+	console.log('stop after ' + (getElapsed() - lastTouched) + 'ms');
+}
+
+//fuse touches and mouse clicks
+function touchStarted() {
+	go();
+}
+
+function touchEnded() {
+	stop();
+}
+
+function mousePressed() {
+	go();
+	// step();
+}
+
+function mouseReleased() {
+	stop();
 }
 
 // document.getElementById('playbutton').onclick = step;
