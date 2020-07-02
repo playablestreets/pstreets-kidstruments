@@ -6,7 +6,7 @@
 // var bankLengths = [ 176, 91, 16, 31, 12, 161, 11, 16 ];
 
 let synth;
-let notes = [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ];
+let notes = [ 'C', 'D', 'E', 'F#', 'G', 'A', 'B' ];
 // let colores = [0, 20, 40, 90, 130, 170, 210];
 let octaves = [ '2', '3', '4', '5', '6', '7' ];
 let tonos = [ 105, 135, 165, 195, 225, 255 ];
@@ -39,9 +39,9 @@ function preload() {
 }
 
 function windowResized() {
-	let xOffset = width / 2;
+	let xOffset = windowWidth / 2;
 	xOffset -= instrumentImage.width * drawScale / 2;
-	let yOffset = height / 2;
+	let yOffset = windowHeight / 2;
 	yOffset -= instrumentImage.height * drawScale / 2;
 	console.log(xOffset, yOffset);
 	// let xOffset = 0;
@@ -71,8 +71,8 @@ function setup() {
 			decay: 0.2,
 			sustain: 0.2,
 			release: 1.5
-		},
-		portamento: 0.05
+		}//,
+		// portamento: 0.05
 	}).toMaster();
 	divX = width / notes.length;
 	divY = height / octaves.length;
@@ -125,10 +125,10 @@ function draw() {
 
 ///UPDATE
 function update() {
-	// if (Tone.context.state != 'running') {
-	// 	console.log('starting tone.js');
-	// 	Tone.start();
-	// }
+	if (Tone.context.state != 'running') {
+		console.log('starting tone.js');
+		Tone.start();
+	}
 
 	//color picking
 	if (isPressed) {
@@ -154,20 +154,24 @@ function update() {
 		// let octave = Math.round((mouseY + divY / 2) / divY) - 1;
 		// note = notes[note] + octaves[octave];
 
-		// if (lastNote != note) {
-			// lastNote = note;
+		let note = map(getNormMouse().x, 0, 1, 400, 2000)
+		console.log(note);
+
+		// synth.setNote(map(getNormMouse().x, 0, 1, 400, 2000));
+		if (lastNote != note) {
+			lastNote = note;
 			// console.log('release');
 			// synth.triggerRelease();
 			console.log('trigger');
-			synth.triggerAttack(400);
-		// }
+			synth.triggerAttack(note);
+		}
 	}
 	else {
-		// if (lastNote != '') {
-			// lastNote = '';
+		if (lastNote != '') {
+			lastNote = '';
 			console.log('Release');
 			synth.triggerRelease();
-		// }
+		}
 	}
 }
 
