@@ -100,7 +100,7 @@ function draw() {
 	update();
 
 
-	if(isPressed){
+	if(isPressed && currentHue >= 0){
 		colorMode(HSB);
 		// background(millis()* 0.1 % 360, 50, 100, 0.2);
 		background(currentHue, 50, 100, 0.2);
