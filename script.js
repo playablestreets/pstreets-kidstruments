@@ -149,7 +149,7 @@ function update() {
 		currentColor = color(255);
 	}
 
-	if (isPressed) {
+	if (isPressed  && currentHue >= 0) {
 		// let note = Math.round((mouseX + divX / 2) / divX) - 1;
 		// let octave = Math.round((mouseY + divY / 2) / divY) - 1;
 		// note = notes[note] + octaves[octave];
