@@ -1,24 +1,16 @@
-// var players = [];
-// var currentStep = 0;
-// var numSteps = 6;
-// var currentBank = 0;
-// var numBanks = 8;
-// var bankLengths = [ 176, 91, 16, 31, 12, 161, 11, 16 ];
-
 //TODO
 //for further UI
 // https://github.com/loneboarder/p5.experience.js
 //https://github.com/bitcraftlab/p5.gui
 //https://github.com/generative-light/p5.scribble.js
 
-//TOUCH GUI 
+//TOUCH GUI
 //https://github.com/L05/p5.touchgui
 // early work but good to look at for touch interactions on mobile
 //it works great actually
 //https://editor.p5js.org/L05/sketches/LWfA8lGwe
 
-
-
+let synths = [];
 
 let synth;
 let notes = [ 'C', 'D', 'E', 'F#', 'G', 'A', 'B' ];
@@ -90,6 +82,8 @@ function setup() {
 		} //,
 		// portamento: 0.05
 	}).toMaster();
+	synths.push(synth);
+
 	divX = width / notes.length;
 	divY = height / octaves.length;
 
