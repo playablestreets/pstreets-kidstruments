@@ -5,6 +5,21 @@
 // var numBanks = 8;
 // var bankLengths = [ 176, 91, 16, 31, 12, 161, 11, 16 ];
 
+//TODO
+//for further UI
+// https://github.com/loneboarder/p5.experience.js
+//https://github.com/bitcraftlab/p5.gui
+//https://github.com/generative-light/p5.scribble.js
+
+//TOUCH GUI 
+//https://github.com/L05/p5.touchgui
+// early work but good to look at for touch interactions on mobile
+//it works great actually
+//https://editor.p5js.org/L05/sketches/LWfA8lGwe
+
+
+
+
 let synth;
 let notes = [ 'C', 'D', 'E', 'F#', 'G', 'A', 'B' ];
 // let colores = [0, 20, 40, 90, 130, 170, 210];
@@ -28,7 +43,7 @@ var currentHue;
 var hueUI;
 var normMouseX;
 var normMouseY;
-var maskImageScale = 32;
+var maskImageScale = 64; //
 var drawScale = 0.5;
 var offset = [ 0, 0 ];
 // var hueslider;
@@ -57,6 +72,7 @@ function windowResized() {
 ///SETUP
 function setup() {
 	console.log('hi');
+	pixelDensity(1);
 
 	//set up synth
 	synth = new Tone.Synth({
@@ -71,7 +87,7 @@ function setup() {
 			decay: 0.2,
 			sustain: 0.2,
 			release: 1.5
-		}//,
+		} //,
 		// portamento: 0.05
 	}).toMaster();
 	divX = width / notes.length;
@@ -86,8 +102,8 @@ function setup() {
 	canvas.position(0, 0);
 	canvas.style('z-index', -1);
 
-
 	//set up mask image
+	// maskImage = instrumentImage.get();
 	maskImage.resize(maskImage.width / maskImageScale, maskImage.height / maskImageScale);
 	maskImage.loadPixels();
 
@@ -99,14 +115,14 @@ function setup() {
 function draw() {
 	update();
 
-
-	if(isPressed && currentHue >= 0){
+	if (isPressed && currentHue >= 0) {
 		colorMode(HSB);
 		// background(millis()* 0.1 % 360, 50, 100, 0.2);
 		background(currentHue, 50, 100, 0.2);
 		colorMode(RGB);
-	}else{
-			background(255, 100);
+	}
+	else {
+		background(255, 100);
 	}
 
 	fill(255);
@@ -159,12 +175,12 @@ function update() {
 		currentColor = color(255);
 	}
 
-	if (isPressed  && currentHue >= 0) {
+	if (isPressed && currentHue >= 0) {
 		// let note = Math.round((mouseX + divX / 2) / divX) - 1;
 		// let octave = Math.round((mouseY + divY / 2) / divY) - 1;
 		// note = notes[note] + octaves[octave];
 
-		let note = map(getNormMouse().x, 0, 1, 400, 2000)
+		let note = map(getNormMouse().x, 0, 1, 400, 2000);
 		console.log(note);
 
 		// synth.setNote(map(getNormMouse().x, 0, 1, 400, 2000));
@@ -185,46 +201,7 @@ function update() {
 	}
 }
 
-function getColor() {
-	//  aim:  to access pixels from mask image as effieciently as possible
-	//				accounting for image scaling and transformation
-
-	//do the opposite scaling to sampling coords
-	//as is done to the image beingdrawn.
-	let foundColor = color(
-		...maskImage.get((mouseX - offset.x) / maskImageScale / drawScale, (mouseY - offset.y) / maskImageScale / drawScale)
-	);
-
-	//  this approach might be faster...
-	//  let d = pixelDensity();
-	//  let off = (y * maskImage.width + x) * d * 4;
-	//  let components = [
-	// 	maskImage.pixels[off],
-	// 	maskImage.pixels[off + 1],
-	// 	maskImage.pixels[off + 2],
-	// 	maskImage.pixels[off + 3]
-	//  ];
-	//  print(components);
-	//  let foundColor = color(...components);
-
-	return foundColor;
-}
-
-function getNormMouse() {
-	let normMouseX = mouseX / width;
-	let normMouseY = mouseY / height;
-	let obj = {
-		x: normMouseX,
-		y: normMouseY
-	};
-	return obj;
-}
-
-function getElapsed() {
-	let endTime = new Date();
-	return (timeDiff = endTime - startTime); //in ms
-}
-
+///ONTOUCH
 function go() {
 	isPressed = true;
 	lastTouched = getElapsed();
@@ -232,94 +209,24 @@ function go() {
 	console.log(getNormMouse());
 }
 
+///ON RELEASE
 function stop() {
 	isPressed = false;
 	console.log('stop after ' + (getElapsed() - lastTouched) + 'ms');
 }
 
 //fuse touches and mouse clicks
+function mousePressed() {
+	go();
+}
+
 function touchStarted() {
 	go();
+}
+function mouseReleased() {
+	stop();
 }
 
 function touchEnded() {
 	stop();
 }
-
-function mousePressed() {
-	go();
-	// step();
-}
-
-function mouseReleased() {
-	stop();
-}
-
-// document.getElementById('playbutton').onclick = step;
-// document.getElementById('playbutton').onmousedown = step;
-// document.getElementById('button').onmousedown = buttonDown;
-// document.getElementById('bg').onmousedown = bgTouch;
-// document.getElementById('bg').onmouseup = bgTouchUp;
-
-// function loadBank() {
-// 	//todo implement loading bar
-// 	numSteps = bankLengths[currentBank];
-
-// 	console.log(numSteps);
-
-// 	for (var i = 1; i <= numSteps; i++) {
-// 		let fileString = '../assets/' + (currentBank + 1) + '/00' + i + '.mp3';
-// 		// let player = new Tone.Player(fileString);
-
-// 		let player = new Tone.Player({
-// 			url: fileString,
-// 			fadeOut: 2.5,
-// 			volume: -6
-
-// 			// "loop" : true,
-// 			// "loopStart" : 0.5,
-// 			// "loopEnd" : 0.7,
-// 		}).toMaster();
-
-// 		//TODO this isn't sticking
-// 		// player.volume = -12;
-// 		player.toMaster();
-// 		players.push(player);
-// 		// mp3Locations.push("../assets/1/00" + i + ".mp3")
-// 	}
-// }
-
-// function buttonDown() {
-// 	console.log('bank next');
-
-// 	//for each in players
-// 	//dispose
-// 	players.forEach((player) => player.dispose());
-
-// 	//clear players
-// 	players = [];
-
-// 	//increment bank
-// 	currentBank++;
-// 	currentBank %= numBanks;
-
-// 	console.log('bank ' + currentBank);
-
-// 	//load sounds
-// 	loadBank();
-// }
-
-// function step() {
-// 	currentStep++;
-// 	if (currentStep >= numSteps) {
-// 		currentStep = 1;
-// 	}
-
-// 	// players[currentStep].volume = -12;
-// 	players[currentStep].start();
-// }
-
-// function stop() {
-// 	// players[currentStep].fadeOut = 1;
-// 	players[currentStep].stop();
-// }
