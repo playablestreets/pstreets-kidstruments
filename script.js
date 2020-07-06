@@ -22,7 +22,7 @@ let hasBegun = false;
 let synths = [];
 
 let synth;
-var numSynths;
+let activeSynth;
 let notes = [ 'C', 'D', 'E', 'F#', 'G', 'A', 'B' ];
 // let colores = [0, 20, 40, 90, 130, 170, 210];
 let octaves = [ '2', '3', '4', '5', '6', '7' ];
@@ -76,9 +76,19 @@ function setup() {
 	console.log('hi');
 	pixelDensity(1);
 
-	//set up synth
+	//set up synths
 	synth = new Tone.Synth(
 		V[3]
+	).toMaster();
+	synths.push(synth);
+
+	synth = new Tone.Synth(
+		V[1]
+	).toMaster();
+	synths.push(synth);
+
+	synth = new Tone.Synth(
+		V[0]
 	).toMaster();
 	synths.push(synth);
 
@@ -152,7 +162,6 @@ function update() {
 	if (isPressed) {
 		currentColor = getColor();
 
-		// hueUI = createElement('h2', currentColor._getHue());
 		if (currentColor._getSaturation() > 20) {
 			currentHue = currentColor._getHue();
 		}
@@ -167,29 +176,51 @@ function update() {
 		currentColor = color(255);
 	}
 
+	//sound making
 	if (isPressed && currentHue >= 0) {
+		activeSynth = parseInt(map(currentHue, 0, 360, 0, synths.length));
+		let note = map(getNormMouse().x, 0, 1, 400, 2000);
+		console.log('note: ' + note +  ', activeSynth: ' + activeSynth);
+
+
+
+		let i = 0;
+		synths.forEach(s => {
+			if(i != activeSynth){
+				console.log('Release synth ' + i);
+				s.triggerRelease();
+			}
+			else if (note != lastNote) {
+				lastNote = note;
+				s.triggerAttack(note);
+			}
+	
+			i++;
+		});
+
+		
 		// let note = Math.round((mouseX + divX / 2) / divX) - 1;
 		// let octave = Math.round((mouseY + divY / 2) / divY) - 1;
 		// note = notes[note] + octaves[octave];
 
-		let note = map(getNormMouse().x, 0, 1, 400, 2000);
-		console.log(note);
+
 
 		// synth.setNote(map(getNormMouse().x, 0, 1, 400, 2000));
-		if (lastNote != note) {
-			lastNote = note;
-			// console.log('release');
-			// synth.triggerRelease();
-			console.log('trigger');
-			synth.triggerAttack(note);
-		}
+		// if (lastNote != note) {
+		// 	lastNote = note;
+		// 	// console.log('release');
+		// 	// synth.triggerRelease();
+		// 	console.log('trigger');
+		// 	synths[0].triggerAttack(note);
+		// }
 	}
-	else {
-		if (lastNote != '') {
-			lastNote = '';
-			console.log('Release');
-			synth.triggerRelease();
-		}
+	// release all notes
+	else if (lastNote != ''){
+		console.log("kill all notes");
+		lastNote = '';
+		synths.forEach(s => { 
+						s.triggerRelease();
+		});
 	}
 }
 
