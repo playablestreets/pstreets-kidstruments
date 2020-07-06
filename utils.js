@@ -23,36 +23,6 @@ function luma(img) {
 	return newImg;
 }
 
-// function saturate(img) {
-
-//   //TODO this function is broken
-// 	let newImg = img.get();
-
-// 	for (let y = 0; y < newImg.height; y++) {
-// 		for (let x = 0; x < newImg.width; x++) {
-// 			let index = (x + y * newImg.width) * 4;
-// 			let r = newImg.pixels[index + 0];
-// 			let g = newImg.pixels[index + 1];
-// 			let b = newImg.pixels[index + 2];
-// 			let a = newImg.pixels[index + 3];
-
-//       let c = color(r,g,b);
-
-//       colorMode(HSB);
-//       c = color(c._getHue(),200,c._getBrightness());
-//       colorMode(RGB);
-
-// 			newImg.pixels[index + 0] = c._getRed();
-// 			newImg.pixels[index + 1] = c._getGreen();
-// 			newImg.pixels[index + 2] = c._getBlue();
-// 			newImg.pixels[index + 3] = a;
-// 		}
-// 	}
-// 	// newImg.updatePixels();
-
-// 	return newImg;
-// }
-
 function getColor() {
 	//  aim:  to access pixels from mask image as effieciently as possible
 	//				accounting for image scaling and transformation
@@ -94,6 +64,38 @@ function getElapsed() {
 }
 
 
+
+
+//attempted saturation....
+// function saturate(img) {
+
+//   //TODO this function is broken
+// 	let newImg = img.get();
+
+// 	for (let y = 0; y < newImg.height; y++) {
+// 		for (let x = 0; x < newImg.width; x++) {
+// 			let index = (x + y * newImg.width) * 4;
+// 			let r = newImg.pixels[index + 0];
+// 			let g = newImg.pixels[index + 1];
+// 			let b = newImg.pixels[index + 2];
+// 			let a = newImg.pixels[index + 3];
+
+//       let c = color(r,g,b);
+
+//       colorMode(HSB);
+//       c = color(c._getHue(),200,c._getBrightness());
+//       colorMode(RGB);
+
+// 			newImg.pixels[index + 0] = c._getRed();
+// 			newImg.pixels[index + 1] = c._getGreen();
+// 			newImg.pixels[index + 2] = c._getBlue();
+// 			newImg.pixels[index + 3] = a;
+// 		}
+// 	}
+// 	// newImg.updatePixels();
+
+// 	return newImg;
+// }
 
 
 //RGB to HSV.....

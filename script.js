@@ -17,19 +17,15 @@
 // alpha, normx, normy, duration;
 // manually start audioContext.  Perhaps use an instructional splash screen...
 
-let hasBegun = false;
 
 let synths = [];
 
 let synth;
 let activeSynth;
 let notes = [ 'C', 'D', 'E', 'F#', 'G', 'A', 'B' ];
-// let colores = [0, 20, 40, 90, 130, 170, 210];
 let octaves = [ '2', '3', '4', '5', '6', '7' ];
-// let tonos = [ 105, 135, 165, 195, 225, 255 ];
 let divX;
 let divY;
-// let oldIsPressed = false;
 let isPressed = false;
 let lastNote = '';
 let isPlaying = false;
@@ -48,7 +44,6 @@ var normMouseY;
 var maskImageScale = 64; //
 var drawScale = 0.5;
 var offset = [ 0, 0 ];
-// var hueslider;
 
 function preload() {
 	instrumentImage = loadImage('assets/Daphne_7_3916.png');
@@ -60,9 +55,6 @@ function windowResized() {
 	xOffset -= instrumentImage.width * drawScale / 2;
 	let yOffset = windowHeight / 2;
 	yOffset -= instrumentImage.height * drawScale / 2;
-	console.log(xOffset, yOffset);
-	// let xOffset = 0;
-	// let yOffset = 0;
 	offset = {
 		x: xOffset,
 		y: yOffset
@@ -105,7 +97,6 @@ function setup() {
 	canvas.style('z-index', -1);
 
 	//set up mask image
-	// maskImage = instrumentImage.get();
 	maskImage.resize(maskImage.width / maskImageScale, maskImage.height / maskImageScale);
 	maskImage.loadPixels();
 
@@ -119,7 +110,6 @@ function draw() {
 
 	if (isPressed && currentHue >= 0) {
 		colorMode(HSB);
-		// background(millis()* 0.1 % 360, 50, 100, 0.2);
 		background(currentHue, 50, 100, 0.2);
 		colorMode(RGB);
 	}
@@ -145,7 +135,6 @@ function draw() {
 		let ellipseWidth = mouseIsPressed ? 70 : 0;
 		stroke(240, 100);
 		strokeWeight(5);
-		// fill();
 		fill(currentColor);
 		ellipse(mouseX, mouseY, ellipseWidth);
 	}
@@ -197,22 +186,7 @@ function update() {
 	
 			i++;
 		});
-
 		
-		// let note = Math.round((mouseX + divX / 2) / divX) - 1;
-		// let octave = Math.round((mouseY + divY / 2) / divY) - 1;
-		// note = notes[note] + octaves[octave];
-
-
-
-		// synth.setNote(map(getNormMouse().x, 0, 1, 400, 2000));
-		// if (lastNote != note) {
-		// 	lastNote = note;
-		// 	// console.log('release');
-		// 	// synth.triggerRelease();
-		// 	console.log('trigger');
-		// 	synths[0].triggerAttack(note);
-		// }
 	}
 	// release all notes
 	else if (lastNote != ''){
@@ -226,17 +200,10 @@ function update() {
 
 ///ONTOUCH
 function go() {
-	// if (!hasBegun) {
-		// hasBegun = true;
-		// StartAudioContext(Tone.context, 'buttonElement');
-		// console.log('starting audio context!');
-	// }
-	// else {
 		isPressed = true;
 		lastTouched = getElapsed();
 		console.log('go at ' + lastTouched + 'ms');
 		console.log(getNormMouse());
-	// }
 }
 
 ///ON RELEASE
