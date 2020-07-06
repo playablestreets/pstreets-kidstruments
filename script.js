@@ -10,6 +10,15 @@
 //it works great actually
 //https://editor.p5js.org/L05/sketches/LWfA8lGwe
 
+// TODO
+// interface to synths
+// hue, alpha, normx, normy, duration
+// interface to synth indexed by hue:
+// alpha, normx, normy, duration;
+// manually start audioContext.  Perhaps use an instructional splash screen...
+
+let hasBegun = false;
+
 let synths = [];
 
 let synth;
@@ -67,21 +76,9 @@ function setup() {
 	pixelDensity(1);
 
 	//set up synth
-	synth = new Tone.Synth({
-		oscillator: {
-			type: 'amtriangle',
-			harmonicity: 0.5,
-			modulationType: 'sine'
-		},
-		envelope: {
-			attackCurve: 'exponential',
-			attack: 0.05,
-			decay: 0.2,
-			sustain: 0.2,
-			release: 1.5
-		} //,
-		// portamento: 0.05
-	}).toMaster();
+	synth = new Tone.Synth(
+		V[3]
+	).toMaster();
 	synths.push(synth);
 
 	divX = width / notes.length;
@@ -197,10 +194,17 @@ function update() {
 
 ///ONTOUCH
 function go() {
-	isPressed = true;
-	lastTouched = getElapsed();
-	console.log('go at ' + lastTouched + 'ms');
-	console.log(getNormMouse());
+	// if (!hasBegun) {
+		// hasBegun = true;
+		// StartAudioContext(Tone.context, 'buttonElement');
+		// console.log('starting audio context!');
+	// }
+	// else {
+		isPressed = true;
+		lastTouched = getElapsed();
+		console.log('go at ' + lastTouched + 'ms');
+		console.log(getNormMouse());
+	// }
 }
 
 ///ON RELEASE

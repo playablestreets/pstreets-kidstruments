@@ -93,6 +93,10 @@ function getElapsed() {
 	return (timeDiff = endTime - startTime); //in ms
 }
 
+
+
+
+//RGB to HSV.....
 //normalised RGB to HSV 360 100 100 1
 // let cMax = max(r, g, b);
 // let cMin = min(r, g, b);
