@@ -80,7 +80,7 @@ function setup() {
 	sounds.push(sound);
 
 	synth = new Tone.Synth(
-		U[0]
+		B[4]
 	).toMaster();
 	sound = new Sound(synth);
 	sounds.push(sound);
@@ -204,6 +204,7 @@ function go() {
 	if(!hasBegun){
 		console.log('starting tone.js');
 		Tone.start();
+		hasBegun = true;
 	}
 
 	isPressed = true;
