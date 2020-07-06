@@ -208,13 +208,13 @@ function go() {
 
 	isPressed = true;
 	lastTouched = getElapsed();
-	console.log('go at ' + lastTouched + 'ms');
+	// console.log('go at ' + lastTouched + 'ms');
 }
 
 ///ON RELEASE
 function stop() {
 	isPressed = false;
-	console.log('stop after ' + (getElapsed() - lastTouched) + 'ms');
+	// console.log('stop after ' + (getElapsed() - lastTouched) + 'ms');
 }
 
 //fuse touches and mouse clicks
