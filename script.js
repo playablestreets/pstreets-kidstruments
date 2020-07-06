@@ -18,9 +18,11 @@
 // manually start audioContext.  Perhaps use an instructional splash screen...
 
 
-let synths = [];
+'use strict';
+// let synths = [];
+let sounds = [];
 
-let synth;
+// let synth;
 let activeSynth;
 let notes = [ 'C', 'D', 'E', 'F#', 'G', 'A', 'B' ];
 let octaves = [ '2', '3', '4', '5', '6', '7' ];
@@ -41,7 +43,7 @@ var currentHue;
 var hueUI;
 var normMouseX;
 var normMouseY;
-var maskImageScale = 64; //
+var maskImageScale = 16; //
 var drawScale = 0.5;
 var offset = [ 0, 0 ];
 
@@ -68,21 +70,25 @@ function setup() {
 	console.log('hi');
 	pixelDensity(1);
 
-	//set up synths
+	//set up sounds
+
+	let synth = new Tone.Synth(
+		B[2]
+	).toMaster();
+	let sound = new Sound(synth);
+	sounds.push(sound);
+
+	synth = new Tone.Synth(
+		U[0]
+	).toMaster();
+	sound = new Sound(synth);
+	sounds.push(sound);
+
 	synth = new Tone.Synth(
 		V[3]
 	).toMaster();
-	synths.push(synth);
-
-	synth = new Tone.Synth(
-		V[1]
-	).toMaster();
-	synths.push(synth);
-
-	synth = new Tone.Synth(
-		V[0]
-	).toMaster();
-	synths.push(synth);
+	sound = new Sound(synth);
+	sounds.push(sound);
 
 	divX = width / notes.length;
 	divY = height / octaves.length;
@@ -158,7 +164,7 @@ function update() {
 			currentHue = -1;
 		}
 
-		hueUI.elt.innerText = parseInt(currentHue);
+		hueUI.elt.innerText = parseInt(activeSynth);
 		hueUI.elt.style.color = '#999999';
 	}
 	else {
@@ -167,33 +173,26 @@ function update() {
 
 	//sound making
 	if (isPressed && currentHue >= 0) {
-		activeSynth = parseInt(map(currentHue, 0, 360, 0, synths.length));
-		let note = map(getNormMouse().x, 0, 1, 400, 2000);
-		console.log('note: ' + note +  ', activeSynth: ' + activeSynth);
+		activeSynth = parseInt(map(currentHue, 0, 360, 0, sounds.length));
 
-
+		// let note = map(getNormMouse().x, 0, 1, 400, 2000);
+		// console.log('note: ' + note +  ', activeSynth: ' + activeSynth);
 
 		let i = 0;
-		synths.forEach(s => {
-			if(i != activeSynth){
-				console.log('Release synth ' + i);
-				s.triggerRelease();
-			}
-			else if (note != lastNote) {
-				lastNote = note;
-				s.triggerAttack(note);
-			}
-	
+		sounds.forEach(sound => {
+			if(activeSynth != i)
+				sound.stopNotes();
+			else
+				sound.playNote();
 			i++;
 		});
+
 		
 	}
 	// release all notes
-	else if (lastNote != ''){
-		console.log("kill all notes");
-		lastNote = '';
-		synths.forEach(s => { 
-						s.triggerRelease();
+	else {
+		sounds.forEach(sound => {
+				sound.stopNotes();
 		});
 	}
 }
@@ -203,7 +202,6 @@ function go() {
 		isPressed = true;
 		lastTouched = getElapsed();
 		console.log('go at ' + lastTouched + 'ms');
-		console.log(getNormMouse());
 }
 
 ///ON RELEASE

@@ -1,5 +1,5 @@
+'use strict';
 // utils.js
-
 function luma(img) {
 	let newImg = img.get();
 
@@ -60,7 +60,7 @@ function getNormMouse() {
 
 function getElapsed() {
 	let endTime = new Date();
-	return (timeDiff = endTime - startTime); //in ms
+	return (endTime - startTime); //in ms
 }
 
 
