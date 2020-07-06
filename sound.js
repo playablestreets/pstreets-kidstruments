@@ -4,6 +4,7 @@
 // - note
 // - perc
 // - sample
+// - grid notes
 
 'use strict';
 class Sound{

@@ -20,6 +20,7 @@
 
 'use strict';
 // let synths = [];
+let hasBegun = false;
 let sounds = [];
 
 // let synth;
@@ -148,10 +149,10 @@ function draw() {
 
 ///UPDATE
 function update() {
-	if (Tone.context.state != 'running') {
-		console.log('starting tone.js');
-		Tone.start();
-	}
+	// if (Tone.context.state != 'running') {
+	// 	console.log('starting tone.js');
+	// 	Tone.start();
+	// }
 
 	//color picking
 	if (isPressed) {
@@ -199,9 +200,15 @@ function update() {
 
 ///ONTOUCH
 function go() {
-		isPressed = true;
-		lastTouched = getElapsed();
-		console.log('go at ' + lastTouched + 'ms');
+
+	if(!hasBegun){
+		console.log('starting tone.js');
+		Tone.start();
+	}
+
+	isPressed = true;
+	lastTouched = getElapsed();
+	console.log('go at ' + lastTouched + 'ms');
 }
 
 ///ON RELEASE
