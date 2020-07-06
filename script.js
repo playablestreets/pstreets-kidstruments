@@ -22,10 +22,11 @@ let hasBegun = false;
 let synths = [];
 
 let synth;
+var numSynths;
 let notes = [ 'C', 'D', 'E', 'F#', 'G', 'A', 'B' ];
 // let colores = [0, 20, 40, 90, 130, 170, 210];
 let octaves = [ '2', '3', '4', '5', '6', '7' ];
-let tonos = [ 105, 135, 165, 195, 225, 255 ];
+// let tonos = [ 105, 135, 165, 195, 225, 255 ];
 let divX;
 let divY;
 // let oldIsPressed = false;
