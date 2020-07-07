@@ -83,17 +83,18 @@ function windowResized() {
 function loadInstrument() {
 	isLoading = true;
 	loadStartTime = millis();
-	instrumentImage = loadImage('instruments/' + instruments[currentInstrument].name + '/instrument.png', () => {
+	instrumentImage = loadImage('instruments/' + instruments[currentInstrument].id + '.png', () => {
 		instrumentImage.isLoaded = true;
 		windowResized();
 	});
-	maskImage = loadImage('instruments/' + instruments[currentInstrument].name + '/mask.png', () => {
+	maskImage = loadImage('instruments/' + instruments[currentInstrument].id + '_mask.png', () => {
 		maskImage.resize(maskImage.width / maskImageScale, maskImage.height / maskImageScale);
 		maskImage.loadPixels();
 		maskImage.isLoaded = true;
 		windowResized();
 	});
-	document.getElementById('info').innerHTML =  instruments[currentInstrument].title + '\nby\n' + instruments[currentInstrument].name;
+	document.getElementById('info').innerHTML =
+		instruments[currentInstrument].title + '\nby\n' + instruments[currentInstrument].name;
 }
 
 ///SETUP
@@ -124,6 +125,20 @@ function setup() {
 	canvas = createCanvas(windowWidth, windowHeight);
 	canvas.position(0, 0);
 
+	//init instruments
+	instruments = shuffle(instruments);
+
+	let urlName = getUrlName();
+	if (urlName != '') {
+		for (let index = 0; index < instruments.length; index++) {
+			if (instruments[index].name.toLowerCase() == urlName) {
+				currentInstrument = index;
+				console.log('loading ' + instruments[currentInstrument].name);
+				break;
+			}
+		}
+	}
+
 	loadInstrument();
 	//resize window to init
 	windowResized();
@@ -142,7 +157,6 @@ function drawSplash() {
 	textAlign(CENTER, CENTER);
 	textSize(32);
 
-	// if(isLoading && (millis() - loadStartTime) > 5000){
 	if (isLoading || millis() - loadStartTime < 1700) {
 		text('LOADING...', windowWidth / 2, windowHeight / 2);
 	}
