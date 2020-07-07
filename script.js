@@ -78,7 +78,6 @@ function windowResized() {
 }
 
 function loadInstrument() {
-
 	isLoading = true;
 	loadStartTime = millis();
 	instrumentImage = loadImage('assets/Daphne_7_3916.png', () => {
@@ -99,7 +98,6 @@ function setup() {
 	console.log('hi');
 	pixelDensity(1);
 	splashHue = random(360);
-
 
 	//set up sounds
 	let synth = new Tone.Synth(B[2]).toMaster();
@@ -141,14 +139,14 @@ function drawSplash() {
 	textSize(32);
 
 	// if(isLoading && (millis() - loadStartTime) > 5000){
-	if(isLoading || (millis() - loadStartTime) < 1700){
-		text("LOADING...", windowWidth/2, windowHeight/2);
-	}else if(!hasBegun || Tone.context.state != 'running'){
-		splashHue += deltaTime * 0.1;
-		splashHue %= 360
-		text("LET'S JAM!", windowWidth/2, windowHeight/2);
+	if (isLoading || millis() - loadStartTime < 1700) {
+		text('LOADING...', windowWidth / 2, windowHeight / 2);
 	}
-
+	else if (!hasBegun || Tone.context.state != 'running') {
+		splashHue += deltaTime * 0.1;
+		splashHue %= 360;
+		text("LET'S JAM!", windowWidth / 2, windowHeight / 2);
+	}
 }
 
 ///DRAW
@@ -240,19 +238,21 @@ function fillBg() {
 
 ///ONTOUCH
 function go() {
-	if (!hasBegun) {
-		console.log('starting tone.js');
-		Tone.start();
-		hasBegun = true;
-		canvas.style('z-index', -1);
-		colorMode(HSB);
-		background(splashHue, 50, 100, 1);
-		colorMode(RGB);
-	}
-	else {
-		isPressed = true;
-		lastTouched = getElapsed();
-		// console.log('go at ' + lastTouched + 'ms');
+	if (!isLoading && millis() - loadStartTime > 1700) {
+		if (!hasBegun) {
+			console.log('starting tone.js');
+			Tone.start();
+			hasBegun = true;
+			canvas.style('z-index', -1);
+			colorMode(HSB);
+			background(splashHue, 50, 100, 1);
+			colorMode(RGB);
+		}
+		else {
+			isPressed = true;
+			lastTouched = getElapsed();
+			// console.log('go at ' + lastTouched + 'ms');
+		}
 	}
 }
 
