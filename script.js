@@ -134,7 +134,7 @@ function drawSplash() {
 	// console.log('splash');
 	canvas.style('z-index', 10);
 	colorMode(HSB);
-	background(splashHue, 50, 100, 0.1);
+	background(splashHue, 50, 100, 1);
 	colorMode(RGB);
 
 	fill(255);
