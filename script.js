@@ -45,7 +45,7 @@ var currentHue;
 var normMouseX;
 var normMouseY;
 var maskImageScale = 16; //
-var drawScale = 0.5;
+var drawScale = 0.2;
 var offset = [ 0, 0 ];
 
 function preload() {
@@ -54,10 +54,19 @@ function preload() {
 }
 
 function windowResized() {
+
+	let uiOffset = 35;
+
+	drawScale = windowWidth/instrumentImage.width;
+	if(windowWidth>windowHeight){
+		drawScale = windowHeight/(instrumentImage.height);
+	}
+
 	let xOffset = windowWidth / 2;
 	xOffset -= instrumentImage.width * drawScale / 2;
 	let yOffset = windowHeight / 2;
-	yOffset -= instrumentImage.height * drawScale / 2;
+	yOffset -= instrumentImage.height * drawScale / 2 + uiOffset;
+
 	offset = {
 		x: xOffset,
 		y: yOffset
@@ -112,23 +121,16 @@ function setup() {
 	windowResized();
 }
 
+
+
 ///DRAW
 function draw() {
 	update();
-
-	if (isPressed && currentHue >= 0) {
-		colorMode(HSB);
-		background(currentHue, 50, 100, 0.2);
-		colorMode(RGB);
-	}
-	else {
-		background(255, 100);
-	}
+	fillBg();
 
 	fill(255);
 
 	image(instrumentImage, offset.x, offset.y, instrumentImage.width * drawScale, instrumentImage.height * drawScale);
-
 	if (drawMask) {
 		image(
 			maskImage,
@@ -196,6 +198,19 @@ function update() {
 				sound.stopNotes();
 		});
 	}
+}
+
+
+function fillBg(){
+	if (isPressed && currentHue >= 0) {
+		colorMode(HSB);
+		background(currentHue, 50, 100, 0.2);
+		colorMode(RGB);
+	}
+	else {
+		background(255, 100);
+	}
+
 }
 
 ///ONTOUCH
