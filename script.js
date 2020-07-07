@@ -32,6 +32,8 @@ let isPressed = false;
 let lastNote = '';
 let isPlaying = false;
 
+let currentInstrument = 0;
+
 let drawMask = false;
 
 var startTime = new Date();
@@ -77,20 +79,21 @@ function windowResized() {
 	}
 }
 
+//INSTRUMENT LOADING
 function loadInstrument() {
 	isLoading = true;
 	loadStartTime = millis();
-	instrumentImage = loadImage('assets/Daphne_7_3916.png', () => {
+	instrumentImage = loadImage('instruments/' + instruments[currentInstrument].name + '/instrument.png', () => {
 		instrumentImage.isLoaded = true;
 		windowResized();
 	});
-	maskImage = loadImage('assets/Daphne_7_3916-MASK.png', () => {
+	maskImage = loadImage('instruments/' + instruments[currentInstrument].name + '/mask.png', () => {
 		maskImage.resize(maskImage.width / maskImageScale, maskImage.height / maskImageScale);
 		maskImage.loadPixels();
 		maskImage.isLoaded = true;
 		windowResized();
 	});
-	document.getElementById('info').innerHTML = 'INSTRUMENT by \n NAME';
+	document.getElementById('info').innerHTML =  instruments[currentInstrument].title + '\nby\n' + instruments[currentInstrument].name;
 }
 
 ///SETUP
@@ -126,6 +129,7 @@ function setup() {
 	windowResized();
 }
 
+//SPLASH SCREEN
 function drawSplash() {
 	// console.log('splash');
 	canvas.style('z-index', 10);
@@ -281,6 +285,9 @@ function touchEnded() {
 function loadPrev() {
 	console.log('loading previous');
 	splashHue = random(360);
+	currentInstrument--;
+	if (currentInstrument < 0) currentInstrument = instruments.length - 1;
+
 	loadInstrument();
 	hasBegun = false;
 }
@@ -288,6 +295,8 @@ function loadPrev() {
 function loadNext() {
 	console.log('loading next');
 	splashHue = random(360);
+	currentInstrument++;
+	currentInstrument %= instruments.length;
 	loadInstrument();
 	hasBegun = false;
 }
