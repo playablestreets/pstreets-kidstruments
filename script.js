@@ -155,15 +155,15 @@ function drawSplash() {
 	fill(255);
 	strokeWeight(0);
 	textAlign(CENTER, CENTER);
-	textSize(32);
+	textSize(40);
 
 	if (isLoading || millis() - loadStartTime < 1700) {
-		text('LOADING...', windowWidth / 2, windowHeight / 2);
+		text('loading...', windowWidth / 2, windowHeight / 2);
 	}
 	else if (!hasBegun || Tone.context.state != 'running') {
 		splashHue += deltaTime * 0.1;
 		splashHue %= 360;
-		text("LET'S JAM!", windowWidth / 2, windowHeight / 2);
+		text("🤘\nTouch to rock", windowWidth / 2, windowHeight / 2);
 	}
 }
 
