@@ -46,6 +46,7 @@ var maskImageScale = 16; //
 var drawScale = 0.2;
 var offset = [ 0, 0 ];
 let isLoading = true;
+let splashHue;
 
 function windowResized() {
 	if (instrumentImage.isLoaded && maskImage.isLoaded) {
@@ -95,6 +96,7 @@ function loadInstrument() {
 function setup() {
 	console.log('hi');
 	pixelDensity(1);
+	splashHue = random(360);
 
 
 	//set up sounds
@@ -128,10 +130,10 @@ function drawSplash() {
 	// console.log('splash');
 	canvas.style('z-index', 10);
 	colorMode(HSB);
-	background(180, 50, 100, 1);
+	background(splashHue, 50, 100, 1);
 	colorMode(RGB);
 
-	fill(10);
+	fill(255);
 	
 	textAlign(CENTER, CENTER);
 	textSize(32);
@@ -270,10 +272,12 @@ function touchEnded() {
 
 function loadPrev() {
 	console.log('loading previous');
+	splashHue = random(360);
 }
 
 function loadNext() {
 	console.log('loading next');
+	splashHue = random(360);
 }
 
 document.getElementById('button-next').onclick = loadNext;
