@@ -96,6 +96,7 @@ function setup() {
 	console.log('hi');
 	pixelDensity(1);
 
+
 	//set up sounds
 	let synth = new Tone.Synth(B[2]).toMaster();
 	let sound = new Sound(synth);
@@ -130,11 +131,15 @@ function drawSplash() {
 	background(180, 50, 100, 1);
 	colorMode(RGB);
 
-	fill(100);
+	fill(10);
+	
+	textAlign(CENTER, CENTER);
+	textSize(32);
+
 	if(isLoading){
 		text("LOADING...", windowWidth/2, windowHeight/2);
 	}else if(!hasBegun || Tone.context.state != 'running'){
-		text("LET'S JAM!", windowWidth/2, windowHeight/2);
+		text("YO!\nLET'S JAM!", windowWidth/2, windowHeight/2);
 	}
 
 }
