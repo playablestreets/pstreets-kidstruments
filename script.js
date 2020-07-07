@@ -45,6 +45,7 @@ var normMouseY;
 var maskImageScale = 16; //
 var drawScale = 0.2;
 var offset = [ 0, 0 ];
+let isLoading = true;
 
 function windowResized() {
 	if (instrumentImage.isLoaded && maskImage.isLoaded) {
@@ -65,11 +66,18 @@ function windowResized() {
 			y: yOffset
 		};
 
+		if (instrumentImage.isLoaded && maskImage.isLoaded) {
+			canvas.style('z-index', -1);
+			isLoading = false;
+		}
+
 		resizeCanvas(windowWidth, windowHeight);
 	}
 }
 
 function loadInstrument() {
+
+	isLoading = true;
 	instrumentImage = loadImage('assets/Daphne_7_3916.png', () => {
 		instrumentImage.isLoaded = true;
 		windowResized();
@@ -87,8 +95,6 @@ function loadInstrument() {
 function setup() {
 	console.log('hi');
 	pixelDensity(1);
-
-	loadInstrument();
 
 	//set up sounds
 	let synth = new Tone.Synth(B[2]).toMaster();
@@ -111,37 +117,59 @@ function setup() {
 	// Create the canvas
 	canvas = createCanvas(windowWidth, windowHeight);
 	canvas.position(0, 0);
-	canvas.style('z-index', -1);
 
+	loadInstrument();
 	//resize window to init
 	windowResized();
+}
+
+function drawSplash() {
+	// console.log('splash');
+	canvas.style('z-index', 10);
+	colorMode(HSB);
+	background(180, 50, 100, 1);
+	colorMode(RGB);
+
+	fill(100);
+	if(isLoading){
+		text("LOADING...", windowWidth/2, windowHeight/2);
+	}else if(!hasBegun || Tone.context.state != 'running'){
+		text("LET'S JAM!", windowWidth/2, windowHeight/2);
+	}
+
 }
 
 ///DRAW
 function draw() {
 	update();
-	fillBg();
 
-	fill(255);
+	if (isLoading || !hasBegun) {
+		drawSplash();
+	}
+	else {
+		fillBg();
 
-	if (instrumentImage.isLoaded && maskImage.isLoaded) {
-		image(instrumentImage, offset.x, offset.y, instrumentImage.width * drawScale, instrumentImage.height * drawScale);
-		if (drawMask) {
-			image(
-				maskImage,
-				offset.x,
-				offset.y,
-				maskImage.width * maskImageScale * drawScale,
-				maskImage.height * maskImageScale * drawScale
-			);
-		}
+		fill(255);
 
-		if (mouseX > 10 && mouseX < width - 10 && (mouseY > 10 && mouseY < height - 10)) {
-			let ellipseWidth = mouseIsPressed ? 70 : 0;
-			stroke(240, 100);
-			strokeWeight(5);
-			fill(currentColor);
-			ellipse(mouseX, mouseY, ellipseWidth);
+		if (instrumentImage.isLoaded && maskImage.isLoaded) {
+			image(instrumentImage, offset.x, offset.y, instrumentImage.width * drawScale, instrumentImage.height * drawScale);
+			if (drawMask) {
+				image(
+					maskImage,
+					offset.x,
+					offset.y,
+					maskImage.width * maskImageScale * drawScale,
+					maskImage.height * maskImageScale * drawScale
+				);
+			}
+
+			if (mouseX > 10 && mouseX < width - 10 && (mouseY > 10 && mouseY < height - 10)) {
+				let ellipseWidth = mouseIsPressed ? 70 : 0;
+				stroke(240, 100);
+				strokeWeight(5);
+				fill(currentColor);
+				ellipse(mouseX, mouseY, ellipseWidth);
+			}
 		}
 	}
 }
@@ -204,11 +232,13 @@ function go() {
 		console.log('starting tone.js');
 		Tone.start();
 		hasBegun = true;
+		canvas.style('z-index', -1);
 	}
-
-	isPressed = true;
-	lastTouched = getElapsed();
-	// console.log('go at ' + lastTouched + 'ms');
+	else {
+		isPressed = true;
+		lastTouched = getElapsed();
+		// console.log('go at ' + lastTouched + 'ms');
+	}
 }
 
 ///ON RELEASE
@@ -232,3 +262,14 @@ function mouseReleased() {
 function touchEnded() {
 	stop();
 }
+
+function loadPrev() {
+	console.log('loading previous');
+}
+
+function loadNext() {
+	console.log('loading next');
+}
+
+document.getElementById('button-next').onclick = loadNext;
+document.getElementById('button-prev').onclick = loadPrev;

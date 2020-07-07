@@ -159,7 +159,7 @@ p {
 	box-sizing: border-box;
 	width: 25%;
 	padding: 10px;
-	z-index: 265;
+	/* z-index: 1; */
 	/* min-width: 50px; */
 	/* min-height: 50px; */
 	width: 50px;
@@ -207,33 +207,6 @@ p {
 	color: rgb(255, 132, 239);
 }
 
-.title{
-	box-sizing: border-box;
-	/* position: absolute; */
-	/* margin: auto; */
-	/* right: 10px; */
-	/* bottom: 10px; */
-	/* left: 10px; */
-	/* top: 10px;  */
-	width: 100%;
-	padding: 10px 0px;
-	z-index: 265;
-	min-width: 69px;
-	/* min-height: 100px; */
-	/* line-height: 10px; */
-	/* background-color: rgb(94, 206, 240); */
-	/* font-size: 64px; */
-  /* margin: 0px 30px;*/
-  margin 0; 
-	/* border-radius: 20px; */
-	/* border-style: solid; */
-	/* border-color: white; */
-	/* border-width: 1px; */
-	color: white;
-	text-align: center;
-	/* font-weight: bolder; */
-	/* box-shadow: 0px 0px 10px rgb(159, 224, 255); */
-}
 
 .ui {
 	position: absolute;
@@ -261,4 +234,5 @@ p {
 		radial-gradient(ellipse at bottom, rgb(36, 36, 36), transparent);
 	/* animation: slam 15s linear infinite alternate; */
 	z-index: -1;
-	overflow: hidden
+	overflow: hidden;
+}
