@@ -227,11 +227,12 @@ p {
 	padding: 0;
 	width: 100%;
 	height: 100%;
+	background: white;
 	/* background-color: greenyellow; */
 	/* background: radial-gradient(ellipse at top, red, transparent), */
 	/* radial-gradient(ellipse at bottom, blue, transparent); */
-	background: radial-gradient(ellipse at bottom, rgb(17, 44, 17), rgb(22, 22, 22)),
-		radial-gradient(ellipse at bottom, rgb(36, 36, 36), transparent);
+	/* background: radial-gradient(ellipse at bottom, rgb(17, 44, 17), rgb(22, 22, 22)), */
+		/* radial-gradient(ellipse at bottom, rgb(36, 36, 36), transparent); */
 	/* animation: slam 15s linear infinite alternate; */
 	z-index: -1;
 	overflow: hidden;

@@ -46,6 +46,7 @@ var maskImageScale = 16; //
 var drawScale = 0.2;
 var offset = [ 0, 0 ];
 let isLoading = true;
+let loadStartTime;
 let splashHue;
 
 function windowResized() {
@@ -79,6 +80,7 @@ function windowResized() {
 function loadInstrument() {
 
 	isLoading = true;
+	loadStartTime = millis();
 	instrumentImage = loadImage('assets/Daphne_7_3916.png', () => {
 		instrumentImage.isLoaded = true;
 		windowResized();
@@ -130,18 +132,19 @@ function drawSplash() {
 	// console.log('splash');
 	canvas.style('z-index', 10);
 	colorMode(HSB);
-	background(splashHue, 50, 100, 1);
+	background(splashHue, 50, 100, 0.1);
 	colorMode(RGB);
 
 	fill(255);
-	
+	strokeWeight(0);
 	textAlign(CENTER, CENTER);
 	textSize(32);
 
-	if(isLoading){
+	// if(isLoading && (millis() - loadStartTime) > 5000){
+	if(isLoading || (millis() - loadStartTime) < 1000){
 		text("LOADING...", windowWidth/2, windowHeight/2);
 	}else if(!hasBegun || Tone.context.state != 'running'){
-		text("YO!\nLET'S JAM!", windowWidth/2, windowHeight/2);
+		text("LET'S JAM!", windowWidth/2, windowHeight/2);
 	}
 
 }
@@ -273,11 +276,15 @@ function touchEnded() {
 function loadPrev() {
 	console.log('loading previous');
 	splashHue = random(360);
+	loadInstrument();
+	hasBegun = false;
 }
 
 function loadNext() {
 	console.log('loading next');
 	splashHue = random(360);
+	loadInstrument();
+	hasBegun = false;
 }
 
 document.getElementById('button-next').onclick = loadNext;
