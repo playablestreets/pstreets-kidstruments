@@ -41,7 +41,7 @@ var instrumentImage;
 var maskImage;
 var currentColor;
 var currentHue;
-var hueUI;
+// var hueUI;
 var normMouseX;
 var normMouseY;
 var maskImageScale = 16; //
@@ -95,7 +95,8 @@ function setup() {
 	divY = height / octaves.length;
 
 	//debug gui
-	hueUI = createElement('h2', 'nothin has happened');
+	// hueUI = createElement('h2', 'nothin has happened');
+	document.getElementById("info").innerHTML = "hello";
 	currentColor = color(255);
 
 	// Create the canvas
@@ -159,14 +160,13 @@ function update() {
 		currentColor = getColor();
 
 		if (currentColor._getSaturation() > 20) {
-			currentHue = currentColor._getHue();
+			currentHue = parseInt(currentColor._getHue());
 		}
 		else {
 			currentHue = -1;
 		}
-
-		hueUI.elt.innerText = parseInt(activeSynth);
-		hueUI.elt.style.color = '#999999';
+		document.getElementById("info").innerHTML = currentHue;
+		// hueUI.elt.style.color = '#999999';
 	}
 	else {
 		currentColor = color(255);

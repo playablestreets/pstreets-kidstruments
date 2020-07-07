@@ -157,21 +157,17 @@ p {
 
 .button {
 	box-sizing: border-box;
-	/* position: absolute; */
-	/* margin: auto; */
-	/* right: 10px; */
-	/* bottom: 10px; */
-	/* left: 10px; */
-	/* top: 10px;  */
 	width: 25%;
 	padding: 10px;
 	z-index: 265;
-	min-width: 70px;
-	min-height: 70px;
+	/* min-width: 50px; */
+	/* min-height: 50px; */
+	width: 50px;
+	height: 50px;
 	line-height: 10px;
 	background-color: rgb(106, 240, 94);
-	font-size: 60px;
-  /* margin: 10px 30px; */
+	font-size: 30px;
+  margin: 10px;
   margin 0;
 	border-radius: 20px;
 	border-style: solid;
@@ -185,6 +181,16 @@ p {
 	/* outline-offset: -5px;  negative border width + outline width */
 }
 
+.button.next{
+	/* position: absolute; */
+	/* margin: auto; */
+	/* right: 10px; */
+	/* bottom: 10px; */
+	/* left: 10px; */
+	/* top: 10px;  */
+	
+}
+
 .button:hover {
 	background-color: rgb(143, 238, 151);
 }
@@ -192,6 +198,12 @@ p {
 	background-color: rgb(207, 247, 212);
 	/* font-size: 28px; */
 	/* border-width: 10px; */
+}
+
+.info{
+	width: 100px;
+	margin: auto;
+	text-align: center;
 }
 
 .title{
@@ -224,12 +236,14 @@ p {
 
 .ui {
 	position: absolute;
+	width: 100vw;
 	/* bottom: 5vh;
   right: 5vw; */
-	top: 2.5vh;
-	left: 5vw;
+	bottom: 0;
+	/* left: 5vw; */
 	display: flex;
-  flex-direction: column;
+	flex-direction: row;
+	justify-content: space-evenly;
   
 }
 
@@ -246,5 +260,4 @@ p {
 		radial-gradient(ellipse at bottom, rgb(36, 36, 36), transparent);
 	/* animation: slam 15s linear infinite alternate; */
 	z-index: -1;
-	overflow: hidden;
-}
+	overflow: hidden
