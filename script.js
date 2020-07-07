@@ -141,9 +141,11 @@ function drawSplash() {
 	textSize(32);
 
 	// if(isLoading && (millis() - loadStartTime) > 5000){
-	if(isLoading || (millis() - loadStartTime) < 1000){
+	if(isLoading || (millis() - loadStartTime) < 1700){
 		text("LOADING...", windowWidth/2, windowHeight/2);
 	}else if(!hasBegun || Tone.context.state != 'running'){
+		splashHue += deltaTime * 0.1;
+		splashHue %= 360
 		text("LET'S JAM!", windowWidth/2, windowHeight/2);
 	}
 
@@ -243,6 +245,9 @@ function go() {
 		Tone.start();
 		hasBegun = true;
 		canvas.style('z-index', -1);
+		colorMode(HSB);
+		background(splashHue, 50, 100, 1);
+		colorMode(RGB);
 	}
 	else {
 		isPressed = true;
