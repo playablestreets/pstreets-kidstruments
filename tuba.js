@@ -19,7 +19,7 @@ class Tuba{
     note = this.notes[note];
     // console.log(note);
     if(note != this.lastNote && note != null){
-      this.sound.triggerAttackRelease(note, 1);
+      this.sound.triggerAttackRelease(note, 0.3);
       this.lastNote = note;
     }
   }

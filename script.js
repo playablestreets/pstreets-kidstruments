@@ -111,6 +111,9 @@ function setup() {
 	sound = new Tuba();
 	sounds.push(sound);
 
+	sound = new SliderSynth();
+	sounds.push(sound);
+
 	// synth = new Tone.Synth(B[4]).toMaster();
 	// sound = new Sound(synth);
 	// sounds.push(sound);
