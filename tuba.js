@@ -17,7 +17,7 @@ class Tuba{
     let note = parseInt((getNormMouse().x + getNormMouse().y) * this.notes.length);
     note %= this.notes.length - 1;
     note = this.notes[note];
-    console.log(note);
+    // console.log(note);
     if(note != this.lastNote && note != null){
       this.sound.triggerAttackRelease(note, 1);
       this.lastNote = note;
