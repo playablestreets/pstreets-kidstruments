@@ -17,7 +17,7 @@ class Xylophone{
     note %= this.notes.length - 1;
     note = this.notes[note];
     if(note != this.lastNote && note != null){
-      this.sound.triggerAttack(note);
+      this.sound.triggerAttackRelease(note, 5);
       this.lastNote = note;
     }
   }
@@ -25,6 +25,6 @@ class Xylophone{
   stop(){
     // console.log("release the tuba");
     this.lastNote = "";
-    this.sound.releaseAll(1);
+    this.sound.releaseAll(5);
   }
 }
