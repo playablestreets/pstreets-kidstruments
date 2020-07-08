@@ -24,10 +24,10 @@ let sounds = [];
 
 // let synth;
 let activeSynth;
-let notes = [ 'C', 'D', 'E', 'F#', 'G', 'A', 'B' ];
-let octaves = [ '2', '3', '4', '5', '6', '7' ];
-let divX;
-let divY;
+// let notes = [ 'C', 'D', 'E', 'F#', 'G', 'A', 'B' ];
+// let octaves = [ '2', '3', '4', '5', '6', '7' ];
+// let divX;
+// let divY;
 let isPressed = false;
 let lastNote = '';
 let isPlaying = false;
@@ -104,20 +104,23 @@ function setup() {
 	splashHue = random(360);
 
 	//set up sounds
-	let synth = new Tone.Synth(B[2]).toMaster();
-	let sound = new Sound(synth);
+	// let synth = new Tone.Synth(B[2]).toMaster();
+	let sound = new Xylophone();
 	sounds.push(sound);
 
-	synth = new Tone.Synth(B[4]).toMaster();
-	sound = new Sound(synth);
+	sound = new Tuba();
 	sounds.push(sound);
 
-	synth = new Tone.Synth(V[3]).toMaster();
-	sound = new Sound(synth);
-	sounds.push(sound);
+	// synth = new Tone.Synth(B[4]).toMaster();
+	// sound = new Sound(synth);
+	// sounds.push(sound);
 
-	divX = width / notes.length;
-	divY = height / octaves.length;
+	// synth = new Tone.Synth(V[3]).toMaster();
+	// sound = new Sound(synth);
+	// sounds.push(sound);
+
+	// divX = width / notes.length;
+	// divY = height / octaves.length;
 
 	currentColor = color(255);
 
@@ -230,15 +233,15 @@ function update() {
 
 		let i = 0;
 		sounds.forEach((sound) => {
-			if (activeSynth != i) sound.stopNotes();
-			else sound.playNote();
+			if (activeSynth != i) sound.stop();
+			else sound.play();
 			i++;
 		});
 	}
-	else {
+	else if (!isPressed) {
 		// release all notes
 		sounds.forEach((sound) => {
-			sound.stopNotes();
+			sound.stop();
 		});
 	}
 }

@@ -9,16 +9,19 @@
 //current sliding implementation is spitting out too many notes i suspect.
 
 'use strict';
-class Sound{
+class SliderSynth{
   constructor(synth){
-    this.synth = synth;
+    this.synth = new Tone.synth(	{
+      portamento: 0.2,
+      oscillator: { type: 'sawtooth' },
+      envelope: { attack: 0.03, decay: 0.1, sustain: 0.2, release: 0.02 }
+    });
     this.note = 500;
     this.lastNote = 500;
     this.isPlaying = false;
   }
 
-  playNote(){
-    
+  play(){
     this.note = map(getNormMouse().x, 0, 1, 400, 2000);
     if(this.note != this.lastNote){
       this.lastNote = this.note;
@@ -30,7 +33,7 @@ class Sound{
     }
   }
 
-  stopNotes(){
+  stop(){
     this.note = 500;
     this.lastNote = 500;
     this.synth.triggerRelease();
