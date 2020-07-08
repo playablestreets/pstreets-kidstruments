@@ -114,6 +114,9 @@ function setup() {
 	sound = new SliderSynth();
 	sounds.push(sound);
 
+	sound = new Drums();
+	sounds.push(sound);
+
 	// synth = new Tone.Synth(B[4]).toMaster();
 	// sound = new Sound(synth);
 	// sounds.push(sound);
