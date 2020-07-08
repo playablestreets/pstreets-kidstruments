@@ -117,6 +117,9 @@ function setup() {
 	sound = new Drums();
 	sounds.push(sound);
 
+	sound = new Fart();
+	sounds.push(sound);
+
 	// synth = new Tone.Synth(B[4]).toMaster();
 	// sound = new Sound(synth);
 	// sounds.push(sound);
