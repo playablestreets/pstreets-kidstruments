@@ -44,4 +44,41 @@ let instruments = [
     age: "7",
     postcode: "3121"
   },
+
+  {
+    id: "kids_006",
+    name: "Hridaya",
+    title: "foodecorder",
+    description: "Crunching, Chewing, Sizzling, etc. Food Sounds!",
+    age: "11",
+    postcode: "3004"
+  },
+
+  {
+    id: "kids_007",
+    name: "Jeevana",
+    title: "jukelele",
+    description: "Deep Sounds",
+    age: "9",
+    postcode: "3004"
+  },
+
+{
+    id: "kids_008",
+    name: "Vritika",
+    title: "love instruments",
+    description: "High Sounds",
+    age: "5",
+    postcode: "3004"
+  },
+
+  {
+    id: "kids_009",
+    name: "Zander",
+    title: "Orange Dino Electric Guitar",
+    description: "Dino Sounds",
+    age: "5",
+    postcode: "3926"
+  },
+
 ];
