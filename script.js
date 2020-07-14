@@ -108,6 +108,9 @@ function setup() {
 	let sound = new Xylophone();
 	sounds.push(sound);
 
+	sound = new Harp();
+	sounds.push(sound);
+
 	sound = new Tuba();
 	sounds.push(sound);
 
@@ -119,6 +122,8 @@ function setup() {
 
 	sound = new Fart();
 	sounds.push(sound);
+
+
 
 	// synth = new Tone.Synth(B[4]).toMaster();
 	// sound = new Sound(synth);
@@ -329,3 +334,11 @@ function loadNext() {
 
 document.getElementById('button-next').onclick = loadNext;
 document.getElementById('button-prev').onclick = loadPrev;
+
+// Listen for orientation changes
+window.addEventListener("orientationchange", function() {
+  // Announce the new orientation number
+	// alert(window.orientation);
+	console.log("orientation change");
+	windowResized();
+}, false);
