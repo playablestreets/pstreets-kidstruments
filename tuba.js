@@ -2,7 +2,7 @@ class Tuba{
   constructor(){
     this.lastNote = "";
     this.isLoaded = false;
-    this.notes = ["C1", "G1", "D2", "C2", "G1", "D2"];
+    this.notes = ["C1", "G1", "D2", "C2", "G1", "D2", "C2", "G2", "D3", "C3", "G2", "D3"];
     this.sound = SampleLibrary.load({
       instruments: "tuba"
     });
