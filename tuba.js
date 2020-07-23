@@ -11,7 +11,6 @@ class Tuba{
     // console.log(this.sound);
   }
 
-
   play(){
     // let note = getNormMouse()
     let note = parseInt((getNormMouse().x + getNormMouse().y) * this.notes.length);
