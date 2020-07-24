@@ -62,7 +62,7 @@ function windowResized() {
 
 		let xOffset = windowWidth / 2;
 		xOffset -= instrumentImage.width * drawScale / 2;
-		let yOffset = windowHeight / 2;
+		let yOffset = windowHeight/ 2;
 		yOffset -= instrumentImage.height * drawScale / 2 + uiOffset;
 
 		offset = {
