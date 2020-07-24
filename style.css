@@ -128,6 +128,17 @@ table {
 	border-spacing: 0;
 }
 
+/* disable coloured hilighting */
+::selection {
+	color: none;
+	background: none;
+}
+/* For Mozilla Firefox */
+::-moz-selection {
+	color: none;
+	background: none;
+}
+
 :root {
 	color: rgb(236, 236, 236);
 	/* box-sizing: border-box; */
@@ -183,7 +194,7 @@ p {
 	background-color: #FFFFFF00;
 	width: 90px;
 	height: 90px;
-	margin: 5px;
+	margin: 15px;
 	border-style: none;
 }
 
@@ -197,7 +208,7 @@ p {
 }
 
 .info {
-	width: 300px;
+	width: 400px;
 	margin: auto;
 	text-align: center;
 	font-weight: bolder;
@@ -209,7 +220,7 @@ p {
 
 .ui{
 	position: absolute;
-	width: 100vw;
+	width: 100%;
 	/* bottom: 5vh;
   right: 5vw; */
 	bottom: 0;
@@ -220,9 +231,17 @@ p {
 	justify-content: space-between;
 	background-color: rgba(139, 0, 139, 0.118);
 }
+
+.ui-top{
+	position: static;
+	top: 0;
+	background-color: #FFFFFF00;
+}
+
+
 .nav{
 	/* position: absolute; */
-	width: 40vw;
+	width: 80vw;
 	/* bottom: 5vh;
   right: 5vw; */
 	top: 0;

@@ -340,5 +340,9 @@ window.addEventListener("orientationchange", function() {
   // Announce the new orientation number
 	// alert(window.orientation);
 	console.log("orientation change");
-	windowResized();
+	// windowResized();
 }, false);
+
+// function deviceTurned(){
+// 	console.log("device turned");
+// }
