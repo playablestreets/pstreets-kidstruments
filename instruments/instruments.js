@@ -1,21 +1,21 @@
 let instruments = [
 	{
 		id: 'kids_001',
-		name: 'Pia',
-		title: 'Lorem Ipsum',
-		description: 'Toot, Pop, Crackle',
-		age: '6',
-		postcode: '2204'
+		name: 'Daphne',
+		title: 'Sumber',
+		description: 'Blow into the mouth piece and a humming noise will come out. Pluck the harps strings for music press the keys. I made especially for those who cannot speak',
+		age: '7',
+		postcode: '3916'
 	},
 
 	{
 		id: 'kids_002',
-		name: 'Daphne',
-		title: 'Sumber',
+		name: 'Pia',
+		title: '?',
 		description:
-			' Blow into the mouth piece and a humming noise will come out. Pluck the harps strings for music press the keys. I made especially for those who cannot speak',
-		age: '7',
-		postcode: '3916'
+			'Toot, Pop, Crackle',
+		age: '6',
+		postcode: '2204'
 	},
 
 	{
@@ -267,5 +267,185 @@ let instruments = [
 		description: 'The Tuba Drum sounds like birds chirping',
 		age: '7',
 		postcode: '3163'
-	}
+	},
+
+	{
+		id: 'kids_030',
+		name: 'Chet',
+		title: 'Ball Pit',
+		description: 'It is a piano with drums and cymbals fitted to it. It has drum stick holders on both sides for hitting the drums. The Ball Pit has 7 pedals and bass notes come out of the pipes. The notes make ball pit balls fly out of the pipes and land back in.',
+		age: '7',
+		postcode: '3053'
+	},
+
+	{
+		id: 'kids_031',
+		name: 'Alexander',
+		title: 'Scruffy Sound Machine',
+		description: 'Bigger than a small mouse - scruffy - scratchy - squeaky',
+		age: '?',
+		postcode: '?'
+	},
+
+	{
+		id: 'kids_032',
+		name: 'Claude',
+		title: 'The Squeaker',
+		description: 'Da baaa doo - Squeaky - ba daa',
+		age: '?',
+		postcode: '?'
+	},
+
+	{
+		id: 'kids_033',
+		name: 'Cody',
+		title: 'Drummy Drum Drum (played under the sea by a mermaid)',
+		description: 'Boom Poow Booo -MMMMM POOOW',
+		age: '?',
+		postcode: '?'
+	},
+
+	{
+		id: 'kids_034',
+		name: 'Vivien',
+		title: 'The blooblah',
+		description: 'Makes the sound of jangling keys',
+		age: '?',
+		postcode: '?'
+	},
+
+	{
+		id: 'kids_035',
+		name: 'Zac',
+		title: 'Piano Drum Guitar',
+		description: 'Hit the drums to lower the pitch. To higher the pitch press a piano key',
+		age: '?',
+		postcode: '3000'
+	},
+
+	{
+		id: 'kids_036',
+		name: 'Meera',
+		title: 'piagatrump',
+		description: 'you pluck the string and piano notes will come out of the trumpet',
+		age: '?',
+		postcode: '3000'
+	},
+
+	{
+		id: 'kids_037',
+		name: 'Jason',
+		title: 'the running music machine',
+		description: 'you pluck the string and piano notes will come out of the trumpet',
+		age: '?',
+		postcode: '3000'
+	},
+
+	{
+		id: 'kids_038',
+		name: 'Cruz',
+		title: 'the laser kazoo instrument',
+		description: 'Sounds like booooo',
+		age: '?',
+		postcode: '3000'
+	},
+
+	{
+		id: 'kids_039',
+		name: 'Dora',
+		title: 'bunny drum',
+		description: 'So what you need to do is you have to turn the handle which is the bunnys tail and then it will make the drum sticks hit the drum which will make the bunny ears go up and down',
+		age: '8',
+		postcode: '3051'
+	},
+
+	{
+		id: 'kids_040',
+		name: 'Vivian',
+		title: 'bunny drum',
+		description: 'You write your favourite songs (you can erase the songs) you write ABCDEF or G in the whiteboard and the harp plays the song',
+		age: '?',
+		postcode: '3053'
+	},
+
+	{
+		id: 'kids_041',
+		name: 'Nina',
+		title: 'Guitardion',
+		description: 'Mix between guitar and accordion (The right hand plucks the six strings on the top and the left hand plays the piano and moves back and forth.',
+		age: '7',
+		postcode: '3000'
+	},
+
+	{
+		id: 'kids_042',
+		name: 'Liv',
+		title: 'Music Doll',
+		description: 'Sounds like a guitar, piano, drum and xylophone all together!',
+		age: '7',
+		postcode: '3053'
+	},
+
+	{
+		id: 'kids_043',
+		name: 'Xinyu',
+		title: 'Gear Wheel Drum',
+		description: 'What it sounds like: Boom! and Bing! you turn the handle then the gear wheel vibrate the strings next, the strings vibrate another string which hits the ball so the ball roll on the path and hit the drum',
+		age: '?',
+		postcode: '3053'
+	},
+
+	{
+		id: 'kids_044',
+		name: 'Lee',
+		title: 'Stick Guitar',
+		description: 'you just need to pluck the stick',
+		age: '?',
+		postcode: '3053'
+	},
+
+	{
+		id: 'kids_045',
+		name: 'Anabelle',
+		title: 'vibrating xylophone',
+		description: 'Play the xylophone with sticks and it will vibrate and the ipad will hear the music when you pay the xylophone it will suck up the music',
+		age: '?',
+		postcode: '3053'
+	},
+
+	{
+		id: 'kids_046',
+		name: 'Davien',
+		title: 'Metal Sausage',
+		description: 'Warning do not push too far.',
+		age: '?',
+		postcode: '?'
+	},
+
+	{
+		id: 'kids_047',
+		name: 'Emile',
+		title: 'String Flute',
+		description: 'when you blow into the mouthpiece it makes a sound. when you pull a string it opens a hole at the bottom',
+		age: '?',
+		postcode: '3000'
+	},
+
+	{
+		id: 'kids_048',
+		name: 'Mihira',
+		title: 'Flute',
+		description: 'Sound:Wo wo wo wo wo wo (a beautiful bird called Wood Thrush)',
+		age: '?',
+		postcode: '3000'
+	},
+
+	{
+		id: 'kids_049',
+		name: 'Sonny',
+		title: 'the dinga donga',
+		description: 'Ding Dong Ming Mong Clang',
+		age: '5',
+		postcode: '3163'
+	},
 ];
