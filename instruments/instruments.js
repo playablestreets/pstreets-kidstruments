@@ -440,12 +440,12 @@ let instruments = [
 		postcode: '3000'
 	},
 
-	{
-		id: 'kids_049',
-		name: 'Sonny',
-		title: 'the dinga donga',
-		description: 'Ding Dong Ming Mong Clang',
-		age: '5',
-		postcode: '3163'
-	},
+	// {
+	// 	id: 'kids_049',
+	// 	name: 'Sonny',
+	// 	title: 'the dinga donga',
+	// 	description: 'Ding Dong Ming Mong Clang',
+	// 	age: '5',
+	// 	postcode: '3163'
+	// },
 ];
