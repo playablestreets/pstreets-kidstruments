@@ -440,12 +440,23 @@ let instruments = [
 		postcode: '3000'
 	},
 
-	// {
-	// 	id: 'kids_049',
-	// 	name: 'Sonny',
-	// 	title: 'the dinga donga',
-	// 	description: 'Ding Dong Ming Mong Clang',
-	// 	age: '5',
-	// 	postcode: '3163'
-	// },
+	{
+		id: 'kids_049',
+		name: 'Sonny',
+		title: 'the dinga donga',
+		description: 'Ding Dong Ming Mong Clang',
+		age: '5',
+		postcode: '3163'
+	},
+
+		{
+		id: 'kids_050',
+		name: 'Sonny-2',
+		title: 'Bing Bomb Bongos',
+		description: 'its got some drum parts, and some bits that sound like a piano, and some synthesiser bits -space sounds',
+		age: '5',
+		postcode: '3163'
+	},
+
+
 ];
