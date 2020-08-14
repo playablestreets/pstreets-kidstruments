@@ -1,5 +1,46 @@
 'use strict';
 // utils.js
+
+
+
+
+
+function getApi(){
+	// const masterRef;
+
+	const apiEndPoint = 'https://playable-web.cdn.prismic.io/api/v2';
+	
+	// Create a request variable and assign a new XMLHttpRequest object to it.
+	let request = new XMLHttpRequest();
+	
+	// Open a new connection, using the GET request on the URL endpoint
+	request.open('GET', apiEndPoint, true);
+	
+	request.onload = function () {
+		// Begin accessing JSON data here
+		var data = JSON.parse(this.response);
+		data.refs.forEach((ref) => {
+			if(ref.isMasterRef){
+				// console.log(ref.ref);
+				getKidstrumentsFromPrismic(ref.ref);
+			}
+			
+		});
+
+	}
+
+	// Send request
+	request.send();
+
+	// let masterRef = '';
+	// const api;
+	// return api;
+}
+
+function getKidstrumentsFromPrismic(masterRef){
+	console.log(masterRef);
+}
+
 function luma(img) {
 	let newImg = img.get();
 

@@ -83,6 +83,9 @@ function windowResized() {
 function loadInstrument() {
 	isLoading = true;
 	loadStartTime = millis();
+
+	getApi();
+
 	instrumentImage = loadImage('instruments/' + instruments[currentInstrument].id + '.png', () => {
 		instrumentImage.isLoaded = true;
 		windowResized();
