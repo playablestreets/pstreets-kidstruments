@@ -2,13 +2,13 @@
 // utils.js
 
 
+const apiEndPoint = 'https://playable-web.cdn.prismic.io/api/v2';
 
 
 
 function getApi(){
 	// const masterRef;
 
-	const apiEndPoint = 'https://playable-web.cdn.prismic.io/api/v2';
 	
 	// Create a request variable and assign a new XMLHttpRequest object to it.
 	let request = new XMLHttpRequest();
@@ -24,21 +24,35 @@ function getApi(){
 				// console.log(ref.ref);
 				getKidstrumentsFromPrismic(ref.ref);
 			}
-			
 		});
+	}
 
+	// Send request
+	request.send();
+}
+
+function getKidstrumentsFromPrismic(masterRef){
+	let predicates = '[[at(document.type,"kidstrument")]]';
+	let queryEndPoint = apiEndPoint + '/documents/search?ref=' + masterRef + '&q=' + predicates; 
+	// console.log(masterRef);
+
+
+	// Create a request variable and assign a new XMLHttpRequest object to it.
+	let request = new XMLHttpRequest();
+	
+	// Open a new connection, using the GET request on the URL endpoint
+	request.open('GET', queryEndPoint, true);
+	
+	request.onload = function () {
+		// Begin accessing JSON data here
+		var data = JSON.parse(this.response);
+		console.log(data);
 	}
 
 	// Send request
 	request.send();
 
-	// let masterRef = '';
-	// const api;
-	// return api;
-}
 
-function getKidstrumentsFromPrismic(masterRef){
-	console.log(masterRef);
 }
 
 function luma(img) {
