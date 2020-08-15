@@ -51,6 +51,9 @@ let isLoading = true;
 let loadStartTime;
 let splashHue;
 
+let instruments;
+let instrumentsFound = false;
+
 function windowResized() {
 	if (instrumentImage.isLoaded && maskImage.isLoaded) {
 		let uiOffset = 35;
@@ -62,7 +65,7 @@ function windowResized() {
 
 		let xOffset = windowWidth / 2;
 		xOffset -= instrumentImage.width * drawScale / 2;
-		let yOffset = windowHeight/ 2;
+		let yOffset = windowHeight / 2;
 		yOffset -= instrumentImage.height * drawScale / 2 + uiOffset;
 
 		offset = {
@@ -84,20 +87,18 @@ function loadInstrument() {
 	isLoading = true;
 	loadStartTime = millis();
 
-	getApi();
-
-	instrumentImage = loadImage('instruments/' + instruments[currentInstrument].id + '.png', () => {
+	instrumentImage = loadImage(instruments[currentInstrument].data.instrumentimage.url, () => {
 		instrumentImage.isLoaded = true;
 		windowResized();
 	});
-	maskImage = loadImage('instruments/' + instruments[currentInstrument].id + '_mask.png', () => {
+	maskImage = loadImage(instruments[currentInstrument].data.maskimage.url, () => {
 		maskImage.resize(maskImage.width / maskImageScale, maskImage.height / maskImageScale);
 		maskImage.loadPixels();
 		maskImage.isLoaded = true;
 		windowResized();
 	});
 	document.getElementById('info').innerHTML =
-		instruments[currentInstrument].title + '\nby\n' + instruments[currentInstrument].name;
+		instruments[currentInstrument].data.title[0].text + '\nby\n' + instruments[currentInstrument].data.name;
 }
 
 ///SETUP
@@ -106,8 +107,9 @@ function setup() {
 	pixelDensity(1);
 	splashHue = random(360);
 
+	getApi(this);
+
 	//set up sounds
-	// let synth = new Tone.Synth(B[2]).toMaster();
 	let sound = new Xylophone();
 	sounds.push(sound);
 
@@ -126,40 +128,39 @@ function setup() {
 	sound = new Fart();
 	sounds.push(sound);
 
-
-
-	// synth = new Tone.Synth(B[4]).toMaster();
-	// sound = new Sound(synth);
-	// sounds.push(sound);
-
-	// synth = new Tone.Synth(V[3]).toMaster();
-	// sound = new Sound(synth);
-	// sounds.push(sound);
-
-	// divX = width / notes.length;
-	// divY = height / octaves.length;
-
 	currentColor = color(255);
 
 	// Create the canvas
 	canvas = createCanvas(windowWidth, windowHeight);
 	canvas.position(0, 0);
 
-	//init instruments
-	instruments = shuffle(instruments);
 
+
+
+}
+
+//data is set from calling getApi() API
+function setKidstruments(data) {
+	instruments = data;
+	// console.log(data);
+	instruments = shuffle(instruments);
+	// instrumentsFound = true;
+
+	//TODO reimplement URL finding
 	let urlName = getUrlName();
 	if (urlName != '') {
 		for (let index = 0; index < instruments.length; index++) {
-			if (instruments[index].name.toLowerCase() == urlName) {
+			if (instruments[index].uid.toLowerCase() == urlName) {
 				currentInstrument = index;
-				console.log('loading ' + instruments[currentInstrument].name);
+				console.log('loading ' + instruments[currentInstrument].uid);
 				break;
 			}
 		}
 	}
 
+
 	loadInstrument();
+
 	//resize window to init
 	windowResized();
 }
@@ -183,7 +184,7 @@ function drawSplash() {
 	else if (!hasBegun || Tone.context.state != 'running') {
 		splashHue += deltaTime * 0.1;
 		splashHue %= 360;
-		text("🤘\nTouch to rock", windowWidth / 2, windowHeight / 2);
+		text('🤘\nTouch to rock', windowWidth / 2, windowHeight / 2);
 	}
 }
 
@@ -339,12 +340,16 @@ document.getElementById('button-next').onclick = loadNext;
 document.getElementById('button-prev').onclick = loadPrev;
 
 // Listen for orientation changes
-window.addEventListener("orientationchange", function() {
-  // Announce the new orientation number
-	// alert(window.orientation);
-	console.log("orientation change");
-	// windowResized();
-}, false);
+window.addEventListener(
+	'orientationchange',
+	function() {
+		// Announce the new orientation number
+		// alert(window.orientation);
+		console.log('orientation change');
+		// windowResized();
+	},
+	false
+);
 
 // function deviceTurned(){
 // 	console.log("device turned");
