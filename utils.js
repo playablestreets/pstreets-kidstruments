@@ -28,14 +28,19 @@ function getApi(ctx){
 
 function getKidstrumentsFromPrismic(masterRef, ctx){
 	let predicates = '[[at(document.type,"kidstrument")]]';
-	let queryEndPoint = apiEndPoint + '/documents/search?ref=' + masterRef + '&q=' + predicates; 
+	let queryEndPoint = apiEndPoint + '/documents/search?ref=' + masterRef + '&q=' + predicates + '&pageSize=100'; 
+
+	//todo iterate over pages
 
 	let request = new XMLHttpRequest();
 	
 	request.open('GET', queryEndPoint, true);
+
+
 	
 	request.onload = function () {
 		var data = JSON.parse(this.response);
+		// console.log(data);
 		//signal has loaded
 		ctx.setKidstruments(data.results);
 	}

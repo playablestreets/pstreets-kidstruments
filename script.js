@@ -98,7 +98,7 @@ function loadInstrument() {
 		windowResized();
 	});
 	document.getElementById('info').innerHTML =
-		instruments[currentInstrument].data.title[0].text + '\nby\n' + instruments[currentInstrument].data.name;
+		  instruments[currentInstrument].data.title[0].text + '\nby\n' + instruments[currentInstrument].data.name + ' \n(' + instruments[currentInstrument].index + ' of ' + instruments.length + ')';
 }
 
 ///SETUP
@@ -142,8 +142,14 @@ function setup() {
 //data is set from calling getApi() API
 function setKidstruments(data) {
 	instruments = data;
-	// console.log(data);
-	instruments = shuffle(instruments);
+	let i = 1;
+	instruments.forEach((inst) => {
+		inst.index = i++;
+	} );
+
+	currentInstrument = int(random() * instruments.length);
+	// console.log(instruments);
+	// instruments = shuffle(instruments);
 	// instrumentsFound = true;
 
 	//TODO reimplement URL finding
