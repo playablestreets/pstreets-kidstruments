@@ -13,11 +13,12 @@ class SliderSynth{
   constructor(){
     this.sound = new Tone.Synth(	{
       portamento: 0.01,
-      oscillator: { type: 'sawtooth' },
+      volume: -6,
+      oscillator: { type: 'triangle' },
       envelope: { attack: 0.03, decay: 0.3, sustain: 0.4, release: 0.02 }
     });
     this.sound.toMaster();
-    this.notes = ["G4", "D4", "F#4", "G4", "A4", "B4", "D5", "G5", "D5", "F#5", "G5", "A5", "B5", "D6"];
+    this.notes = ["G4", "D4", "F#4", "G5", "D5", "F#5","G4", "A4", "B4",  "B3", "G3", "A3", "D3", "F#3", ];
 
     this.note = 500;
     this.lastNote = 500;
