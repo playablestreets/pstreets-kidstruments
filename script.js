@@ -21,7 +21,9 @@
 // let synths = [];
 let hasBegun = false;
 let sounds = [];
-let currentBg = "off";
+// let currentRadio = "off";
+let radioOffColor = "#ff84ef";
+let radioOnColor = "#f6cff7";
 // let synth;
 let activeSynth;
 // let notes = [ 'C', 'D', 'E', 'F#', 'G', 'A', 'B' ];
@@ -133,10 +135,7 @@ function setup() {
 	// Create the canvas
 	canvas = createCanvas(windowWidth, windowHeight);
 	canvas.position(0, 0);
-
-
-
-
+	setRadioOff();
 }
 
 //data is set from calling getApi() API
@@ -163,7 +162,6 @@ function setKidstruments(data) {
 			}
 		}
 	}
-
 
 	loadInstrument();
 
@@ -342,8 +340,48 @@ function loadNext() {
 	hasBegun = false;
 }
 
+function setRadioClassical(){
+	clearRadioButtons();
+	document.getElementById('radio-classical').style.backgroundColor = radioOnColor;
+	
+}
+function setRadioJazz(){
+	clearRadioButtons();
+	document.getElementById('radio-jazz').style.backgroundColor = radioOnColor;
+	
+}
+function setRadioRock(){
+	clearRadioButtons();
+	document.getElementById('radio-rock').style.backgroundColor = radioOnColor;
+	
+}
+function setRadioDance(){
+	clearRadioButtons();
+	document.getElementById('radio-dance').style.backgroundColor = radioOnColor;
+	
+}
+function setRadioOff(){
+	clearRadioButtons();
+	document.getElementById('radio-off').style.backgroundColor = radioOnColor;
+}
+function clearRadioButtons(){
+	document.getElementById('radio-off').style.backgroundColor = radioOffColor;
+	document.getElementById('radio-jazz').style.backgroundColor = radioOffColor;
+	document.getElementById('radio-rock').style.backgroundColor = radioOffColor;
+	document.getElementById('radio-classical').style.backgroundColor = radioOffColor;
+	document.getElementById('radio-dance').style.backgroundColor = radioOffColor;
+
+}
+
+
+
 document.getElementById('button-next').onclick = loadNext;
 document.getElementById('button-prev').onclick = loadPrev;
+document.getElementById('radio-off').onclick = setRadioOff;
+document.getElementById('radio-classical').onclick = setRadioClassical;
+document.getElementById('radio-jazz').onclick = setRadioJazz;
+document.getElementById('radio-rock').onclick = setRadioRock;
+document.getElementById('radio-dance').onclick = setRadioDance;
 
 // Listen for orientation changes
 window.addEventListener(
