@@ -21,7 +21,7 @@
 // let synths = [];
 let hasBegun = false;
 let sounds = [];
-
+let currentBg = "off";
 // let synth;
 let activeSynth;
 // let notes = [ 'C', 'D', 'E', 'F#', 'G', 'A', 'B' ];
