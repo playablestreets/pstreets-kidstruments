@@ -400,7 +400,7 @@ function setRadioDance(){
 	radioPlayer.loop = true;
 }
 function setRadioOff(){
-	if(radioPlayer != null) radioPlayer.dispose();
+	if(radioPlayer != null) radioPlayer.stop();
 	clearRadioButtons();
 	document.getElementById('radio-off').style.backgroundColor = radioOnColor;
 }
