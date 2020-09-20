@@ -195,11 +195,17 @@ p {
 	align-items: center;
 	font-size: 12px;
 	padding: 10px;
-	width: 70px;
+	width: 65px;
 	border-radius: 5px;
 	height: auto;
-	
-	
+}
+
+.radio-container{
+	display: flex;
+	/* width: 70%; */
+	/* background-color: red; */
+	justify-content: center;
+	flex-wrap: wrap;
 }
 
 .icon {
@@ -248,7 +254,6 @@ p {
 	position: static;
 	top: 0;
 	background-color: #FFFFFF00;
-	
 }
 
 
