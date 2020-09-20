@@ -173,7 +173,7 @@ p {
 	width: 50px;
 	height: 50px;
 	line-height: 10px;
-	background-color: rgb(255, 132, 239);
+	background-color: #ff84ef;
 	font-size: 30px;
 	margin: 10px;
 	/* margin 0px; */
@@ -189,6 +189,25 @@ p {
 	/* outline-offset: -5px;  negative border width + outline width */
 }
 
+.radio {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 12px;
+	padding: 10px;
+	width: 65px;
+	border-radius: 5px;
+	height: auto;
+}
+
+.radio-container{
+	display: flex;
+	/* width: 70%; */
+	/* background-color: red; */
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
 .icon {
 	padding: 0;
 	background-color: #FFFFFF00;
@@ -199,10 +218,10 @@ p {
 }
 
 .button:hover {
-	background-color: rgb(250, 159, 250);
+	background-color: #fa9ffa;
 }
 .button:active {
-	background-color: rgb(246, 207, 247);
+	background-color: #f6cff7;
 	/* font-size: 28px; */
 	/* border-width: 10px; */
 }
@@ -221,15 +240,14 @@ p {
 .ui{
 	position: absolute;
 	width: 100%;
-	/* bottom: 5vh;
-  right: 5vw; */
+
 	bottom: 0;
-	/* left: 5vw; */
 	display: flex;
 	flex-direction: row;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: space-between;
 	background-color: rgba(139, 0, 139, 0.118);
+	
 }
 
 .ui-top{

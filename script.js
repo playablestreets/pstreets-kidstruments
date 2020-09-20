@@ -21,7 +21,11 @@
 // let synths = [];
 let hasBegun = false;
 let sounds = [];
-
+// let currentRadio = "off";
+let radioOffColor = "#ff84ef";
+let radioOnColor = "#f6cff7";
+let radioPlayer;
+let radioBuffers = [];
 // let synth;
 let activeSynth;
 // let notes = [ 'C', 'D', 'E', 'F#', 'G', 'A', 'B' ];
@@ -91,6 +95,7 @@ function loadInstrument() {
 		instrumentImage.isLoaded = true;
 		windowResized();
 	});
+
 	maskImage = loadImage(instruments[currentInstrument].data.maskimage.url, () => {
 		maskImage.resize(maskImage.width / maskImageScale, maskImage.height / maskImageScale);
 		maskImage.loadPixels();
@@ -128,15 +133,35 @@ function setup() {
 	sound = new Fart();
 	sounds.push(sound);
 
+	// let classicalBuffer = new Tone.Buffer("samples/radio/classical.mp3", () => {
+	// 	console.log("classical loaded");
+	// });
+	// radioBuffers.push(classicalBuffer);
+	
+	// let rockBuffer = new Tone.Buffer("samples/radio/rock.mp3", () => {
+	// 	console.log("rock loaded");
+	// });
+	// radioBuffers.push(rockBuffer);
+	
+	// let jazzBuffer = new Tone.Buffer("samples/radio/jazz.mp3", () => {
+	// 	console.log("jazz loaded");
+	// });
+	// radioBuffers.push(jazzBuffer);
+	
+	// let danceBuffer = new Tone.Buffer("samples/radio/dance.mp3", () => {
+	// 	console.log("dance loaded");
+	// });
+	// radioBuffers.push(danceBuffer);
+	
+
+
+
 	currentColor = color(255);
 
 	// Create the canvas
 	canvas = createCanvas(windowWidth, windowHeight);
 	canvas.position(0, 0);
-
-
-
-
+	setRadioOff();
 }
 
 //data is set from calling getApi() API
@@ -163,7 +188,6 @@ function setKidstruments(data) {
 			}
 		}
 	}
-
 
 	loadInstrument();
 
@@ -342,8 +366,62 @@ function loadNext() {
 	hasBegun = false;
 }
 
+function setRadioClassical(){
+	clearRadioButtons();
+	document.getElementById('radio-classical').style.backgroundColor = radioOnColor;
+	if(radioPlayer != null) radioPlayer.dispose();
+	radioPlayer = new Tone.Player("samples/radio/classical.mp3").toMaster();
+	radioPlayer.autostart = true;
+	radioPlayer.loop = true;
+
+}
+function setRadioJazz(){
+	clearRadioButtons();
+	document.getElementById('radio-jazz').style.backgroundColor = radioOnColor;
+	if(radioPlayer != null) radioPlayer.dispose();
+	radioPlayer = new Tone.Player("samples/radio/jazz.mp3").toMaster();
+	radioPlayer.autostart = true;
+	radioPlayer.loop = true;
+}
+function setRadioRock(){
+	clearRadioButtons();
+	document.getElementById('radio-rock').style.backgroundColor = radioOnColor;
+	if(radioPlayer != null) radioPlayer.dispose();
+	radioPlayer = new Tone.Player("samples/radio/rock.mp3").toMaster();
+	radioPlayer.autostart = true;
+	radioPlayer.loop = true;
+}
+function setRadioDance(){
+	clearRadioButtons();
+	document.getElementById('radio-dance').style.backgroundColor = radioOnColor;
+	if(radioPlayer != null) radioPlayer.dispose();
+	radioPlayer = new Tone.Player("samples/radio/dance.mp3").toMaster();
+	radioPlayer.autostart = true;
+	radioPlayer.loop = true;
+}
+function setRadioOff(){
+	if(radioPlayer != null) radioPlayer.stop();
+	clearRadioButtons();
+	document.getElementById('radio-off').style.backgroundColor = radioOnColor;
+}
+function clearRadioButtons(){
+	document.getElementById('radio-off').style.backgroundColor = radioOffColor;
+	document.getElementById('radio-jazz').style.backgroundColor = radioOffColor;
+	document.getElementById('radio-rock').style.backgroundColor = radioOffColor;
+	document.getElementById('radio-classical').style.backgroundColor = radioOffColor;
+	document.getElementById('radio-dance').style.backgroundColor = radioOffColor;
+
+}
+
+
+
 document.getElementById('button-next').onclick = loadNext;
 document.getElementById('button-prev').onclick = loadPrev;
+document.getElementById('radio-off').onclick = setRadioOff;
+document.getElementById('radio-classical').onclick = setRadioClassical;
+document.getElementById('radio-jazz').onclick = setRadioJazz;
+document.getElementById('radio-rock').onclick = setRadioRock;
+document.getElementById('radio-dance').onclick = setRadioDance;
 
 // Listen for orientation changes
 window.addEventListener(
