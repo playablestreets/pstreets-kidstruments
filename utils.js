@@ -26,26 +26,38 @@ function getApi(ctx){
 	request.send();
 }
 
+let totalSize;
+let results = [];
+
 function getKidstrumentsFromPrismic(masterRef, ctx){
 	let predicates = '[[at(document.type,"kidstrument")]]';
 	let queryEndPoint = apiEndPoint + '/documents/search?ref=' + masterRef + '&q=' + predicates + '&pageSize=100'; 
+	makeRequest(queryEndPoint, ctx);	
+}
 
-	//todo iterate over pages
-
+function makeRequest(queryEndPoint, ctx){
 	let request = new XMLHttpRequest();
-	
 	request.open('GET', queryEndPoint, true);
-
-
 	
-	request.onload = function () {
+	request.onload = function(){
 		var data = JSON.parse(this.response);
-		// console.log(data);
-		//signal has loaded
-		ctx.setKidstruments(data.results);
+		
+		results = results.concat(data.results);
+		// console.log(results);
+
+		if(data.next_page != null){
+			makeRequest(data.next_page, ctx);
+		}else{
+			console.log('received ', results.length, ' results' );
+			ctx.setKidstruments(results);
+		}
 	}
+
 	request.send();
 }
+
+
+
 
 function luma(img) {
 	let newImg = img.get();
