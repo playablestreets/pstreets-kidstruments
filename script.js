@@ -177,7 +177,6 @@ function setKidstruments(data) {
 	// instruments = shuffle(instruments);
 	// instrumentsFound = true;
 
-	//TODO reimplement URL finding
 	let urlName = getUrlName();
 	if (urlName != '') {
 		for (let index = 0; index < instruments.length; index++) {
