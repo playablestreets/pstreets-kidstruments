@@ -104,11 +104,14 @@ function setInfoText(text) {
 }
 
 function setState(newState) {
-	state = newState;
+  
+  if(newState != state){
 
-	if (state == 'ready') {
-		setInfoText(
-			instruments[currentInstrument].data.title[0].text +
+    state = newState;
+    
+    if (state == 'ready') {
+      setInfoText(
+        instruments[currentInstrument].data.title[0].text +
 				'\nby\n' +
 				instruments[currentInstrument].data.name +
 				' \n(' +
@@ -116,11 +119,15 @@ function setState(newState) {
 				' of ' +
 				instruments.length +
 				')'
-		);
-	}
-	if (state == 'loading') {
-		setInfoText('loading...');
-	}
+        );
+
+        window.history.pushState({}, null, newUrl);
+      }
+
+      if (state == 'loading') {
+        setInfoText('loading...');
+      }
+    }
 }
 
 //------------UPDATE------------------------------------------------------------
@@ -129,19 +136,17 @@ function update() {
   setDisplayState();
   //if we have rotated, reload the page
   if (displayState.currentOrientation != displayState.previousOrientation) {
-    let addr = window.location.href;
-    let dest = addr.split('?')[0] + '?' + currentSlug;
-    // console.log(dest);
-    location.replace(dest); //do this instead, naviagting to current instrument
+    reloadPage();
   }
-
 
 	if (isPressed) setColorState(getColor());
 	else setColorState(color(255));
 }
 
 function setDisplayState() {
+
   displayState.previousOrientation = displayState.currentOrientation;
+
 	if (windowWidth > windowHeight){
     displayState.currentOrientation = 'landscape';
   } 
@@ -165,6 +170,13 @@ function setColorState(c) {
 	else {
 		currentHue = -1;
 	}
+}
+
+function reloadPage(){
+  let addr = window.location.href;
+  let dest = addr.split('?')[0] + '?' + currentSlug;
+  // console.log(dest);
+  location.replace(dest); //do this instead, naviagting to current instrument
 }
 
 //------------DRAW------------------------------------------------------------
@@ -269,15 +281,17 @@ function touchEnded() {
 function loadPrev() {
 	console.log('loading previous');
 	currentInstrument--;
-	if (currentInstrument < 0) currentInstrument = instruments.length - 1;
+  if (currentInstrument < 0) currentInstrument = instruments.length - 1;
 	loadInstrument();
+  reloadPage();
 }
 
 function loadNext() {
 	console.log('loading next');
 	currentInstrument++;
-	currentInstrument %= instruments.length;
+  currentInstrument %= instruments.length;
 	loadInstrument();
+  reloadPage();
 }
 
 //------------RADIO------------------------------------------------------------
