@@ -309,7 +309,8 @@ function go() {
 
 ///ON RELEASE
 function stop() {
-	isPressed = false;
+  isPressed = false;
+  currentHue = -1;
 }
 
 //fuse touches and mouse clicks
