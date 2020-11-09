@@ -231,3 +231,22 @@ function mousePressed(){ go(); }
 function touchStarted(){ go(); }
 function mouseReleased(){ stop(); }
 function touchEnded(){ stop(); }
+
+
+
+document.getElementById('button-next').onclick = loadNext;
+document.getElementById('button-prev').onclick = loadPrev;
+
+function loadPrev() {
+	console.log('loading previous');
+	currentInstrument--;
+	if (currentInstrument < 0) currentInstrument = instruments.length - 1;
+	loadInstrument();
+}
+
+function loadNext() {
+	console.log('loading next');
+	currentInstrument++;
+	currentInstrument %= instruments.length;
+	loadInstrument();
+}
