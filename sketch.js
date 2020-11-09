@@ -28,12 +28,27 @@ let displayState = {
 let radioOffColor = '#ff84ef';
 let radioOnColor = '#f6cff7';
 let radioPlayer;
+let sounds = [];
 // let radioBuffers = [];
 
 //------------SETUP------------------------------------------------------------
 function setup() {
 	//send for kidstruments
-	getApi(this); //returns to setKidstruments()
+  getApi(this); //returns to setKidstruments()
+  
+  //set up sounds
+	let sound = new Xylophone();
+	sounds.push(sound);
+	sound = new Harp();
+	sounds.push(sound);
+	sound = new Tuba();
+	sounds.push(sound);
+	sound = new SliderSynth();
+	sounds.push(sound);
+	sound = new Drums();
+	sounds.push(sound);
+	sound = new Fart();
+	sounds.push(sound);
 
 	canvas = createCanvas(windowWidth, windowHeight);
 	canvas.position(0, 0);
@@ -120,8 +135,6 @@ function setState(newState) {
 				instruments.length +
 				')'
         );
-
-        window.history.pushState({}, null, newUrl);
       }
 
       if (state == 'loading') {
@@ -135,13 +148,46 @@ function update() {
   // check orientation
   setDisplayState();
   //if we have rotated, reload the page
-  if (displayState.currentOrientation != displayState.previousOrientation) {
+  if (displayState.currentOrientation != displayState.previousOrientation)
     reloadPage();
-  }
 
-	if (isPressed) setColorState(getColor());
-	else setColorState(color(255));
+
+  if (isPressed) 
+    setColorState(getColor());
+  else 
+    setColorState(color(255));
+  
+  //sound making
+	if (isPressed && currentHue >= 0) 
+    startSound();
+  // else if (!isPressed)
+  else
+    stopSound();
 }
+
+
+function startSound(){
+  activeSynth = parseInt(map(currentHue, 0, 360, 0, sounds.length));
+  let i = 0;
+
+  sounds.forEach((sound) => {
+    if (activeSynth != i) 
+      sound.stop();
+    else 
+      sound.play();
+
+    i++;
+  });
+}
+
+
+function stopSound(){
+		// release all notes
+		sounds.forEach((sound) => {
+			sound.stop();
+		});
+}
+
 
 function setDisplayState() {
 
@@ -168,6 +214,7 @@ function setColorState(c) {
 		currentHue = parseInt(currentColor._getHue());
 	}
 	else {
+    // console.log('setting to -1');
 		currentHue = -1;
 	}
 }
