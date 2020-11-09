@@ -10,28 +10,15 @@
 //it works great actually
 //https://editor.p5js.org/L05/sketches/LWfA8lGwe
 
-// TODO
-// interface to synths
-// hue, alpha, normx, normy, duration
-// interface to synth indexed by hue:
-// alpha, normx, normy, duration;
-// manually start audioContext.  Perhaps use an instructional splash screen...
 
 'use strict';
-// let synths = [];
 let hasBegun = false;
 let sounds = [];
-// let currentRadio = "off";
 let radioOffColor = "#ff84ef";
 let radioOnColor = "#f6cff7";
 let radioPlayer;
 let radioBuffers = [];
-// let synth;
 let activeSynth;
-// let notes = [ 'C', 'D', 'E', 'F#', 'G', 'A', 'B' ];
-// let octaves = [ '2', '3', '4', '5', '6', '7' ];
-// let divX;
-// let divY;
 let isPressed = false;
 let lastNote = '';
 let isPlaying = false;
@@ -48,7 +35,7 @@ var currentColor;
 var currentHue;
 var normMouseX;
 var normMouseY;
-var maskImageScale = 16; //
+var maskImageScale = 16;
 var drawScale = 0.2;
 var offset = [ 0, 0 ];
 let isLoading = true;
@@ -58,60 +45,20 @@ let splashHue;
 let instruments;
 let instrumentsFound = false;
 
-function windowResized() {
-	if (instrumentImage.isLoaded && maskImage.isLoaded) {
-		let uiOffset = 35;
 
-		drawScale = windowWidth / instrumentImage.width;
-		if (windowWidth > windowHeight) {
-			drawScale = windowHeight / instrumentImage.height;
-		}
-
-		let xOffset = windowWidth / 2;
-		xOffset -= instrumentImage.width * drawScale / 2;
-		let yOffset = windowHeight / 2;
-		yOffset -= instrumentImage.height * drawScale / 2 + uiOffset;
-
-		offset = {
-			x: xOffset,
-			y: yOffset
-		};
-
-		if (instrumentImage.isLoaded && maskImage.isLoaded) {
-			canvas.style('z-index', -1);
-			isLoading = false;
-		}
-
-		resizeCanvas(windowWidth, windowHeight);
-	}
-}
-
-//INSTRUMENT LOADING
-function loadInstrument() {
-	isLoading = true;
-	loadStartTime = millis();
-
-	instrumentImage = loadImage(instruments[currentInstrument].data.instrumentimage.url, () => {
-		instrumentImage.isLoaded = true;
-		windowResized();
-	});
-
-	maskImage = loadImage(instruments[currentInstrument].data.maskimage.url, () => {
-		maskImage.resize(maskImage.width / maskImageScale, maskImage.height / maskImageScale);
-		maskImage.loadPixels();
-		maskImage.isLoaded = true;
-		windowResized();
-	});
-	document.getElementById('info').innerHTML =
-		  instruments[currentInstrument].data.title[0].text + '\nby\n' + instruments[currentInstrument].data.name + ' \n(' + instruments[currentInstrument].index + ' of ' + instruments.length + ')';
-}
 
 ///SETUP
 function setup() {
 	console.log('hi');
+	// console.log("lastTouched =" + lastTouched);
+	// console.log("startTime =" + startTime);
+	// console.log("hasBegun =" + hasBegun);
+
 	pixelDensity(1);
 	splashHue = random(360);
 
+	//calls utils.js
+	//returns to set kidstruments below
 	getApi(this);
 
 	//set up sounds
@@ -133,29 +80,6 @@ function setup() {
 	sound = new Fart();
 	sounds.push(sound);
 
-	// let classicalBuffer = new Tone.Buffer("samples/radio/classical.mp3", () => {
-	// 	console.log("classical loaded");
-	// });
-	// radioBuffers.push(classicalBuffer);
-	
-	// let rockBuffer = new Tone.Buffer("samples/radio/rock.mp3", () => {
-	// 	console.log("rock loaded");
-	// });
-	// radioBuffers.push(rockBuffer);
-	
-	// let jazzBuffer = new Tone.Buffer("samples/radio/jazz.mp3", () => {
-	// 	console.log("jazz loaded");
-	// });
-	// radioBuffers.push(jazzBuffer);
-	
-	// let danceBuffer = new Tone.Buffer("samples/radio/dance.mp3", () => {
-	// 	console.log("dance loaded");
-	// });
-	// radioBuffers.push(danceBuffer);
-	
-
-
-
 	currentColor = color(255);
 
 	// Create the canvas
@@ -164,8 +88,10 @@ function setup() {
 	setRadioOff();
 }
 
+
 //data is set from calling getApi() API
 function setKidstruments(data) {
+	console.log("setting kidstruments...")
 	instruments = data;
 	let i = 1;
 	instruments.forEach((inst) => {
@@ -194,37 +120,83 @@ function setKidstruments(data) {
 	windowResized();
 }
 
-//SPLASH SCREEN
-function drawSplash() {
-	// console.log('splash');
-	canvas.style('z-index', 10);
-	colorMode(HSB);
-	background(splashHue, 50, 100, 1);
-	colorMode(RGB);
 
-	fill(255);
-	strokeWeight(0);
-	textAlign(CENTER, CENTER);
-	textSize(40);
+function windowResized() {
+	// console.log("window resized, instrumentImage.isLoaded: " + instrumentImage.isLoaded + ", maskImage.isLoaded: " + maskImage.isLoaded);
 
-	if (isLoading || millis() - loadStartTime < 1700) {
-		text('loading...', windowWidth / 2, windowHeight / 2);
-	}
-	else if (!hasBegun || Tone.context.state != 'running') {
-		splashHue += deltaTime * 0.1;
-		splashHue %= 360;
-		text('🤘\nTouch to rock', windowWidth / 2, windowHeight / 2);
+	if (instrumentImage.isLoaded && maskImage.isLoaded) {
+		let uiOffset = 35;
+
+		drawScale = windowWidth / instrumentImage.width;
+		console.log("drawScale: " + drawScale);
+
+		if (windowWidth > windowHeight) {
+			drawScale = windowHeight / instrumentImage.height;
+		}
+
+		let xOffset = windowWidth / 2;
+		xOffset -= instrumentImage.width * drawScale / 2;
+		let yOffset = windowHeight / 2;
+		yOffset -= instrumentImage.height * drawScale / 2 + uiOffset;
+
+		offset = {
+			x: xOffset,
+			y: yOffset
+		};
+
+		if (instrumentImage.isLoaded && maskImage.isLoaded) {
+			console.log("ready to draw...");
+
+			//this seemed to be hanging on ios
+			// canvas.style('z-index', -1);
+			isLoading = false;
+			console.log("calling draw..." );
+			draw();
+		}
+
+		resizeCanvas(windowWidth, windowHeight);
 	}
 }
 
+//INSTRUMENT LOADING
+function loadInstrument() {
+	isLoading = true;
+	loadStartTime = millis();
+
+	instrumentImage = loadImage(instruments[currentInstrument].data.instrumentimage.url, () => {
+		instrumentImage.isLoaded = true;
+		console.log("instrument loaded! "  + instrumentImage.isLoaded);
+		windowResized();
+	});
+	
+	maskImage = loadImage(instruments[currentInstrument].data.maskimage.url, () => {
+		maskImage.resize(maskImage.width / maskImageScale, maskImage.height / maskImageScale);
+		maskImage.loadPixels();
+		maskImage.isLoaded = true;
+		console.log("mask loaded! "  + maskImage.isLoaded);
+		windowResized();
+	});
+	document.getElementById('info').innerHTML =
+		  instruments[currentInstrument].data.title[0].text + '\nby\n' + instruments[currentInstrument].data.name + ' \n(' + instruments[currentInstrument].index + ' of ' + instruments.length + ')';
+}
+
+
+
+
+
 ///DRAW
 function draw() {
+	// console.log("drawing");
+	// console.log("isLoading: " + isLoading + ", hasBegun: " + hasBegun);
 	update();
+	console.log("after update...");
 
 	if (isLoading || !hasBegun) {
+		console.log("entering drawing splash");
 		drawSplash();
 	}
 	else {
+		console.log("out of splash... ");
 		fillBg();
 
 		fill(255);
@@ -254,13 +226,15 @@ function draw() {
 
 ///UPDATE
 function update() {
+	console.log("updating...");
 	// if (Tone.context.state != 'running') {
-	// 	console.log('starting tone.js');
-	// 	Tone.start();
-	// }
-
-	//color picking
+		// 	console.log('starting tone.js');
+		// 	Tone.start();
+		// }
+		
+		//color picking
 	if (isPressed) {
+		
 		currentColor = getColor();
 
 		if (currentColor._getSaturation() > 20) {
@@ -290,6 +264,33 @@ function update() {
 		sounds.forEach((sound) => {
 			sound.stop();
 		});
+	}
+}
+
+
+//SPLASH SCREEN
+function drawSplash() {
+	console.log('splash');
+	// canvas.style('z-index', 10);
+	colorMode(HSB);
+	background(splashHue, 50, 100, 1);
+	colorMode(RGB);
+
+	fill(255);
+	strokeWeight(0);
+	textAlign(CENTER, CENTER);
+	textSize(40);
+
+	if (isLoading) {
+	// if (isLoading || millis() - loadStartTime < 1700) {
+		console.log("loading...");
+		text('loading...', windowWidth / 2, windowHeight / 2);
+	}
+	else if (!hasBegun || Tone.context.state != 'running') {
+		splashHue += deltaTime * 0.1;
+		splashHue %= 360;
+		console.log("touch to rock");
+		text('🤘\nTouch to rock', windowWidth / 2, windowHeight / 2);
 	}
 }
 
