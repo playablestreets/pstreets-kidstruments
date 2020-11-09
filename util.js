@@ -54,7 +54,6 @@ function makeRequest(queryEndPoint, ctx){
 
 
 
-
 function luma(img) {
 	let newImg = img.get();
 
@@ -79,6 +78,7 @@ function luma(img) {
 }
 
 
+
 function getNormMouse() {
 	let normMouseX = mouseX / width;
 	let normMouseY = mouseY / height;
@@ -89,10 +89,14 @@ function getNormMouse() {
 	return obj;
 }
 
+
+
 function getElapsed() {
 	let endTime = new Date();
 	return endTime - startTime; //in ms
 }
+
+
 
 // function getParameterByName(name, url) {
 // 	if (!url) url = window.location.href;
@@ -103,6 +107,8 @@ function getElapsed() {
 // 	if (!results[2]) return '';
 // 	return decodeURIComponent(results[2].replace(/\+/g, ' '));
 // }
+
+
 
 function getQueryVariable(variable) {
 	var query = window.location.search.substring(1);
@@ -116,8 +122,9 @@ function getQueryVariable(variable) {
 	return false;
 }
 
+
+
 function getUrlName() {
 	var query = window.location.search.substring(1).toLowerCase(); 
 	return query;
 }
-

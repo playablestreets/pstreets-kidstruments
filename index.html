@@ -4,7 +4,9 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content=" initial-scale=1.0">
+    <!-- <meta name=”viewport” content=”width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no” /> -->
+  <script src="https://kit.fontawesome.com/eec66458b0.js" crossorigin="anonymous"></script>
   <title>p5.js example</title>
   <style>
     body {
@@ -12,7 +14,9 @@
       margin: 0;
     }
   </style>
-  <script src="./lib/p5.min.js"></script>
+  <!-- <script src="./lib/p5.min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
+
   <!-- <script src="./lib/addons/p5.sound.min.js"></script> -->
   <script src="util.js"></script>
   <script src="sketch.js"></script>
@@ -21,6 +25,23 @@
 <body>
   <main>
   </main>
+    <div class="ui">
+
+    <div></div>
+    <div class="nav">
+      <div class="button previous" id="button-prev">
+        <i class="fas fa-chevron-left"></i>
+      </div>
+
+      <div class="info" id="info"></div>
+
+      <div class="button next" id="button-next">
+        <i class="fas fa-chevron-right"></i>
+      </div>
+    </div>
+    <div></div>
+
+  </div>
 </body>
 
 </html>

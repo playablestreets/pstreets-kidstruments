@@ -6,7 +6,7 @@ let currentInstrumentName = '';
 let instrumentImage;
 let maskImage;
 let maskImageScale = 8;
-let drawMask = true;
+let drawMask = false;
 
 let currentColor;
 let isPressed = false;
@@ -27,7 +27,7 @@ let displayState = {
 
 
 
-//------------SETUP
+//------------SETUP------------------------------------------------------------
 function setup() {
   //send for kidstruments
   getApi(this); //returns to setKidstruments()
@@ -53,8 +53,7 @@ function setKidstruments(data) {
 	} );
 
 	// currentInstrument = int(random() * instruments.length);
-	// console.log(instruments);
-	// instruments = shuffle(instruments);
+  // console.log(instruments);
 
 	// let urlName = getUrlName();
 	// if (urlName != '') {
@@ -72,7 +71,8 @@ function setKidstruments(data) {
 
 
 function loadInstrument() {
-  state = 'loading';
+  // state = 'loading';
+  setState('loading');
 
   instrumentImage, maskImage = null;
 
@@ -81,7 +81,8 @@ function loadInstrument() {
     console.log("instrument loaded! ");
 
     if(instrumentImage.isLoaded && maskImage.isLoaded) {
-      state = 'ready';
+      // state = 'ready';
+      setState('ready');
       console.log( state );
     }
 	});
@@ -93,18 +94,42 @@ function loadInstrument() {
     console.log("mask loaded!");
     
     if(instrumentImage.isLoaded && maskImage.isLoaded){
-      state = 'ready';
+      setState('ready');
+      // state = 'ready';
       console.log( state );
     }
   });
   
-	// document.getElementById('info').innerHTML =
-		  // instruments[currentInstrument].data.title[0].text + '\nby\n' + instruments[currentInstrument].data.name + ' \n(' + instruments[currentInstrument].index + ' of ' + instruments.length + ')';
+
 }
 
 
+function setInfoText(text){
+  document.getElementById('info').innerHTML = text;
+}
 
-//------------UPDATE
+function setState(newState){
+  state = newState;
+
+  if(state == 'ready'){
+    setInfoText(
+      instruments[currentInstrument].data.title[0].text 
+      + '\nby\n' 
+      + instruments[currentInstrument].data.name 
+      + ' \n(' 
+      + instruments[currentInstrument].index 
+      + ' of ' 
+      + instruments.length 
+      + ')'
+      );
+  }
+  if(state == 'loading'){
+    setInfoText('loading...');
+  }
+}
+
+
+//------------UPDATE------------------------------------------------------------
 function update(){
 
   // check orientation
@@ -114,35 +139,11 @@ function update(){
     // location.replace("http://zeal.co"); //do this instead, naviagting to current instrument
   }
 
-  //pick colour
-  // if (isPressed) {
-	// 	currentColor = getColor();
-	// 	if (currentColor._getSaturation() > 20) {
-	// 		currentHue = parseInt(currentColor._getHue());
-	// 	}
-	// 	else {
-	// 		currentHue = -1;
-	// 	}
-	// }
-	// else {
-	// 	currentColor = color(255);
-  // }
   if(isPressed)
     setColorState(getColor());
   else
     setColorState(color(255))
 
-}
-
-
-function setColorState(c){
-  currentColor = c;
-  if (currentColor._getSaturation() > 20) {
-    currentHue = parseInt(currentColor._getHue());
-  }
-  else {
-    currentHue = -1;
-  }
 }
 
 
@@ -161,7 +162,18 @@ function setDisplayState(){
 }
 
 
-//------------DRAW
+function setColorState(c){
+  currentColor = c;
+  if (currentColor._getSaturation() > 20) {
+    currentHue = parseInt(currentColor._getHue());
+  }
+  else {
+    currentHue = -1;
+  }
+}
+
+
+//------------DRAW------------------------------------------------------------
 function draw() {
   //run update
   update();
@@ -172,12 +184,12 @@ function draw() {
   canvas.position(0, 0);
 
   fillBg();
-  fill(255);
-
+  
   if(state == 'loading'){
-    text(state, width/2, height/2);
+    //do something....
   }
   else if(state == 'ready'){
+    fill(255);
     image(instrumentImage, displayState.drawOffset.x, displayState.drawOffset.y, displayState.drawSize.x, displayState.drawSize.y);
     
     if(drawMask)
@@ -188,8 +200,7 @@ function draw() {
 
 
 function fillBg() {
-	// if (isPressed && currentHue >= 0) {
-	if (isPressed) {
+	if (isPressed && currentHue >= 0) {
 		colorMode(HSB);
 		background(currentHue, 50, 100, 0.8);
 		colorMode(RGB);
@@ -200,55 +211,17 @@ function fillBg() {
 }
 
 
-
+//------------INTERACTION------------------------------------------------------------
 //pick colour from mask
 function getColor() {
-
-
-	//  aim:  to access pixels from mask image as effieciently as possible
-	//				accounting for image scaling and transformation
-
-	//do the opposite scaling to sampling coords
-	//as is done to the image beingdrawn.
 	let foundColor = color(
 		...maskImage.get((mouseX - displayState.drawOffset.x) / maskImageScale / displayState.drawScale, (mouseY - displayState.drawOffset.y) / maskImageScale / displayState.drawScale)
 	);
-
-	//  this approach might be faster...
-	//  let d = pixelDensity();
-	//  let off = (y * maskImage.width + x) * d * 4;
-	//  let components = [
-	// 	maskImage.pixels[off],
-	// 	maskImage.pixels[off + 1],
-	// 	maskImage.pixels[off + 2],
-	// 	maskImage.pixels[off + 3]
-	//  ];
-	//  print(components);
-	//  let foundColor = color(...components);
-
 	return foundColor;
 }
 
 ///ONTOUCH
-function go() {
-	// if (!isLoading && millis() - loadStartTime > 1700) {
-	// 	if (!hasBegun) {
-	// 		console.log('starting tone.js');
-	// 		Tone.start();
-	// 		hasBegun = true;
-	// 		canvas.style('z-index', -1);
-	// 		colorMode(HSB);
-	// 		background(splashHue, 50, 100, 1);
-	// 		colorMode(RGB);
-	// 	}
-	// 	else {
-	// 		isPressed = true;
-	// 		lastTouched = getElapsed();
-	// 		// console.log('go at ' + lastTouched + 'ms');
-	// 	}
-  // }
-  isPressed = true;
-}
+function go() { isPressed = true; }
 
 ///ON RELEASE
 function stop(){ isPressed = false; }
