@@ -6,11 +6,10 @@ let currentInstrumentName = '';
 let instrumentImage;
 let maskImage;
 let maskImageScale = 8;
-// let drawScale = 1;
-// let aspect = 1;
+let drawMask = true;
 
-// let offset = [0, 0];
-
+let currentColor;
+let isPressed = false;
 
 let displayState = {
   currentOrientation: 'protrait',
@@ -25,8 +24,6 @@ let displayState = {
     y: 1
   }
 }
-// let isTurned = false;
-// let prevWidth;
 
 
 
@@ -42,6 +39,7 @@ function setup() {
   displayState.previousOrientation = displayState.currentOrientation;
 
   textSize(100);
+  currentColor = color(255);
 }
 
 
@@ -54,10 +52,9 @@ function setKidstruments(data) {
 		inst.index = i++;
 	} );
 
-	currentInstrument = int(random() * instruments.length);
-	console.log(instruments);
-	instruments = shuffle(instruments);
-	// instrumentsFound = true;
+	// currentInstrument = int(random() * instruments.length);
+	// console.log(instruments);
+	// instruments = shuffle(instruments);
 
 	// let urlName = getUrlName();
 	// if (urlName != '') {
@@ -69,7 +66,6 @@ function setKidstruments(data) {
 	// 		}
 	// 	}
 	// }
-
 
 	loadInstrument();
 }
@@ -117,7 +113,38 @@ function update(){
     location.reload();
     // location.replace("http://zeal.co"); //do this instead, naviagting to current instrument
   }
+
+  //pick colour
+  // if (isPressed) {
+	// 	currentColor = getColor();
+	// 	if (currentColor._getSaturation() > 20) {
+	// 		currentHue = parseInt(currentColor._getHue());
+	// 	}
+	// 	else {
+	// 		currentHue = -1;
+	// 	}
+	// }
+	// else {
+	// 	currentColor = color(255);
+  // }
+  if(isPressed)
+    setColorState(getColor());
+  else
+    setColorState(color(255))
+
 }
+
+
+function setColorState(c){
+  currentColor = c;
+  if (currentColor._getSaturation() > 20) {
+    currentHue = parseInt(currentColor._getHue());
+  }
+  else {
+    currentHue = -1;
+  }
+}
+
 
 function setDisplayState(){
   if(windowWidth > windowHeight)
@@ -140,17 +167,94 @@ function draw() {
   update();
 
   //prepare canvas
-  clear();
+  // clear();
   resizeCanvas(windowWidth, windowHeight);
   canvas.position(0, 0);
 
-  // background(color(255));
+  fillBg();
+  fill(255);
 
   if(state == 'loading'){
     text(state, width/2, height/2);
   }
   else if(state == 'ready'){
     image(instrumentImage, displayState.drawOffset.x, displayState.drawOffset.y, displayState.drawSize.x, displayState.drawSize.y);
+    
+    if(drawMask)
+      image(maskImage, displayState.drawOffset.x, displayState.drawOffset.y, displayState.drawSize.x, displayState.drawSize.y);
   }
-  
 }
+
+
+
+function fillBg() {
+	// if (isPressed && currentHue >= 0) {
+	if (isPressed) {
+		colorMode(HSB);
+		background(currentHue, 50, 100, 0.8);
+		colorMode(RGB);
+	}
+	else {
+		background(255, 100);
+	}
+}
+
+
+
+//pick colour from mask
+function getColor() {
+
+
+	//  aim:  to access pixels from mask image as effieciently as possible
+	//				accounting for image scaling and transformation
+
+	//do the opposite scaling to sampling coords
+	//as is done to the image beingdrawn.
+	let foundColor = color(
+		...maskImage.get((mouseX - displayState.drawOffset.x) / maskImageScale / displayState.drawScale, (mouseY - displayState.drawOffset.y) / maskImageScale / displayState.drawScale)
+	);
+
+	//  this approach might be faster...
+	//  let d = pixelDensity();
+	//  let off = (y * maskImage.width + x) * d * 4;
+	//  let components = [
+	// 	maskImage.pixels[off],
+	// 	maskImage.pixels[off + 1],
+	// 	maskImage.pixels[off + 2],
+	// 	maskImage.pixels[off + 3]
+	//  ];
+	//  print(components);
+	//  let foundColor = color(...components);
+
+	return foundColor;
+}
+
+///ONTOUCH
+function go() {
+	// if (!isLoading && millis() - loadStartTime > 1700) {
+	// 	if (!hasBegun) {
+	// 		console.log('starting tone.js');
+	// 		Tone.start();
+	// 		hasBegun = true;
+	// 		canvas.style('z-index', -1);
+	// 		colorMode(HSB);
+	// 		background(splashHue, 50, 100, 1);
+	// 		colorMode(RGB);
+	// 	}
+	// 	else {
+	// 		isPressed = true;
+	// 		lastTouched = getElapsed();
+	// 		// console.log('go at ' + lastTouched + 'ms');
+	// 	}
+  // }
+  isPressed = true;
+}
+
+///ON RELEASE
+function stop(){ isPressed = false; }
+
+//fuse touches and mouse clicks
+function mousePressed(){ go(); }
+function touchStarted(){ go(); }
+function mouseReleased(){ stop(); }
+function touchEnded(){ stop(); }

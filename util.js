@@ -78,30 +78,6 @@ function luma(img) {
 	return newImg;
 }
 
-function getColor() {
-	//  aim:  to access pixels from mask image as effieciently as possible
-	//				accounting for image scaling and transformation
-
-	//do the opposite scaling to sampling coords
-	//as is done to the image beingdrawn.
-	let foundColor = color(
-		...maskImage.get((mouseX - offset.x) / maskImageScale / drawScale, (mouseY - offset.y) / maskImageScale / drawScale)
-	);
-
-	//  this approach might be faster...
-	//  let d = pixelDensity();
-	//  let off = (y * maskImage.width + x) * d * 4;
-	//  let components = [
-	// 	maskImage.pixels[off],
-	// 	maskImage.pixels[off + 1],
-	// 	maskImage.pixels[off + 2],
-	// 	maskImage.pixels[off + 3]
-	//  ];
-	//  print(components);
-	//  let foundColor = color(...components);
-
-	return foundColor;
-}
 
 function getNormMouse() {
 	let normMouseX = mouseX / width;
@@ -145,17 +121,3 @@ function getUrlName() {
 	return query;
 }
 
-/**
- * Shuffles array in place.
- * @param {Array} a items An array containing the items.
- */
-// function shuffle(a) {
-// 	var j, x, i;
-// 	for (i = a.length - 1; i > 0; i--) {
-// 			j = Math.floor(Math.random() * (i + 1));
-// 			x = a[i];
-// 			a[i] = a[j];
-// 			a[j] = x;
-// 	}
-// 	return a;
-// }
