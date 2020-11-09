@@ -1,7 +1,7 @@
 let state = 'loading';
 let instruments;
 let currentInstrument = 0;
-let currentInstrumentName = '';
+let currentSlug = '';
 
 let instrumentImage;
 let maskImage;
@@ -46,6 +46,7 @@ function setup() {
 function setKidstruments(data) {
 	console.log("setting kidstruments...")
   instruments = data;
+  // console.log(instruments);
 
 	let i = 1;
 	instruments.forEach((inst) => {
@@ -55,24 +56,26 @@ function setKidstruments(data) {
 	// currentInstrument = int(random() * instruments.length);
   // console.log(instruments);
 
-	// let urlName = getUrlName();
-	// if (urlName != '') {
-	// 	for (let index = 0; index < instruments.length; index++) {
-	// 		if (instruments[index].uid.toLowerCase() == urlName) {
-	// 			currentInstrument = index;
-	// 			console.log('loading ' + instruments[currentInstrument].uid);
-	// 			break;
-	// 		}
-	// 	}
-	// }
+	let urlName = getUrlName();
+	if (urlName != '') {
+		for (let index = 0; index < instruments.length; index++) {
+			if (instruments[index].uid.toLowerCase() == urlName) {
+				currentInstrument = index;
+				console.log('loading ' + instruments[currentInstrument].uid);
+				break;
+			}
+		}
+	}
+
 
 	loadInstrument();
 }
 
 
 function loadInstrument() {
-  // state = 'loading';
   setState('loading');
+  currentSlug = instruments[currentInstrument].uid.toLowerCase();
+  console.log('loading: ' + currentSlug);
 
   instrumentImage, maskImage = null;
 
@@ -81,7 +84,6 @@ function loadInstrument() {
     console.log("instrument loaded! ");
 
     if(instrumentImage.isLoaded && maskImage.isLoaded) {
-      // state = 'ready';
       setState('ready');
       console.log( state );
     }
@@ -95,7 +97,6 @@ function loadInstrument() {
     
     if(instrumentImage.isLoaded && maskImage.isLoaded){
       setState('ready');
-      // state = 'ready';
       console.log( state );
     }
   });
@@ -135,8 +136,10 @@ function update(){
   // check orientation
   setDisplayState();
   if(displayState.currentOrientation != displayState.previousOrientation){
-    location.reload();
-    // location.replace("http://zeal.co"); //do this instead, naviagting to current instrument
+    let addr = window.location.href;
+    let dest = addr.split('?')[0] + '?' + currentSlug;
+    // console.log(dest);
+    location.replace(dest); //do this instead, naviagting to current instrument
   }
 
   if(isPressed)
@@ -232,11 +235,6 @@ function touchStarted(){ go(); }
 function mouseReleased(){ stop(); }
 function touchEnded(){ stop(); }
 
-
-
-document.getElementById('button-next').onclick = loadNext;
-document.getElementById('button-prev').onclick = loadPrev;
-
 function loadPrev() {
 	console.log('loading previous');
 	currentInstrument--;
@@ -250,3 +248,7 @@ function loadNext() {
 	currentInstrument %= instruments.length;
 	loadInstrument();
 }
+
+document.getElementById('button-next').onclick = loadNext;
+document.getElementById('button-prev').onclick = loadPrev;
+
