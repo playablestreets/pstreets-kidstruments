@@ -12,49 +12,48 @@ let currentColor;
 let isPressed = false;
 
 let displayState = {
-  currentOrientation: 'protrait',
-  previousOrientation: 'portrait',
-  drawScale: 1,
-  drawOffset: {
-    x: 0,
-    y: 0
-  },
-  drawSize: {
-    x: 1,
-    y: 1
-  }
-}
+	currentOrientation: 'protrait',
+	previousOrientation: 'portrait',
+	drawScale: 1,
+	drawOffset: {
+		x: 0,
+		y: 0
+	},
+	drawSize: {
+		x: 1,
+		y: 1
+	}
+};
 
-
+let radioOffColor = '#ff84ef';
+let radioOnColor = '#f6cff7';
+let radioPlayer;
+// let radioBuffers = [];
 
 //------------SETUP------------------------------------------------------------
 function setup() {
-  //send for kidstruments
-  getApi(this); //returns to setKidstruments()
-  
-  canvas = createCanvas(windowWidth, windowHeight);
-  canvas.position(0, 0);
-  
-  setDisplayState();
-  displayState.previousOrientation = displayState.currentOrientation;
+	//send for kidstruments
+	getApi(this); //returns to setKidstruments()
 
-  textSize(100);
-  currentColor = color(255);
+	canvas = createCanvas(windowWidth, windowHeight);
+	canvas.position(0, 0);
+
+	setDisplayState();
+	// displayState.previousOrientation = displayState.currentOrientation;
+
+	textSize(100);
+	currentColor = color(255);
 }
 
-
 function setKidstruments(data) {
-	console.log("setting kidstruments...")
-  instruments = data;
-  // console.log(instruments);
+	console.log('setting kidstruments...');
+	instruments = data;
+	// console.log(instruments);
 
 	let i = 1;
 	instruments.forEach((inst) => {
 		inst.index = i++;
-	} );
-
-	// currentInstrument = int(random() * instruments.length);
-  // console.log(instruments);
+	});
 
 	let urlName = getUrlName();
 	if (urlName != '') {
@@ -67,142 +66,144 @@ function setKidstruments(data) {
 		}
 	}
 
-
 	loadInstrument();
 }
 
-
 function loadInstrument() {
-  setState('loading');
-  currentSlug = instruments[currentInstrument].uid.toLowerCase();
-  console.log('loading: ' + currentSlug);
+	setState('loading');
+	currentSlug = instruments[currentInstrument].uid.toLowerCase();
+	console.log('loading: ' + currentSlug);
 
-  instrumentImage, maskImage = null;
+	instrumentImage, (maskImage = null);
 
 	instrumentImage = loadImage(instruments[currentInstrument].data.instrumentimage.url, () => {
 		instrumentImage.isLoaded = true;
-    console.log("instrument loaded! ");
+		console.log('instrument loaded! ');
 
-    if(instrumentImage.isLoaded && maskImage.isLoaded) {
-      setState('ready');
-      console.log( state );
-    }
+		if (instrumentImage.isLoaded && maskImage.isLoaded) {
+			setState('ready');
+			console.log(state);
+		}
 	});
-	
+
 	maskImage = loadImage(instruments[currentInstrument].data.maskimage.url, () => {
-    maskImage.resize(maskImage.width / maskImageScale, maskImage.height / maskImageScale);
+		maskImage.resize(maskImage.width / maskImageScale, maskImage.height / maskImageScale);
 		maskImage.loadPixels();
 		maskImage.isLoaded = true;
-    console.log("mask loaded!");
-    
-    if(instrumentImage.isLoaded && maskImage.isLoaded){
-      setState('ready');
-      console.log( state );
-    }
-  });
-  
+		console.log('mask loaded!');
 
+		if (instrumentImage.isLoaded && maskImage.isLoaded) {
+			setState('ready');
+			console.log(state);
+		}
+	});
 }
 
-
-function setInfoText(text){
-  document.getElementById('info').innerHTML = text;
+function setInfoText(text) {
+	document.getElementById('info').innerHTML = text;
 }
 
-function setState(newState){
-  state = newState;
+function setState(newState) {
+	state = newState;
 
-  if(state == 'ready'){
-    setInfoText(
-      instruments[currentInstrument].data.title[0].text 
-      + '\nby\n' 
-      + instruments[currentInstrument].data.name 
-      + ' \n(' 
-      + instruments[currentInstrument].index 
-      + ' of ' 
-      + instruments.length 
-      + ')'
-      );
-  }
-  if(state == 'loading'){
-    setInfoText('loading...');
-  }
+	if (state == 'ready') {
+		setInfoText(
+			instruments[currentInstrument].data.title[0].text +
+				'\nby\n' +
+				instruments[currentInstrument].data.name +
+				' \n(' +
+				instruments[currentInstrument].index +
+				' of ' +
+				instruments.length +
+				')'
+		);
+	}
+	if (state == 'loading') {
+		setInfoText('loading...');
+	}
 }
-
 
 //------------UPDATE------------------------------------------------------------
-function update(){
-
+function update() {
   // check orientation
   setDisplayState();
-  if(displayState.currentOrientation != displayState.previousOrientation){
+  //if we have rotated, reload the page
+  if (displayState.currentOrientation != displayState.previousOrientation) {
     let addr = window.location.href;
     let dest = addr.split('?')[0] + '?' + currentSlug;
     // console.log(dest);
     location.replace(dest); //do this instead, naviagting to current instrument
   }
 
-  if(isPressed)
-    setColorState(getColor());
-  else
-    setColorState(color(255))
 
+	if (isPressed) setColorState(getColor());
+	else setColorState(color(255));
 }
 
-
-function setDisplayState(){
-  if(windowWidth > windowHeight)
+function setDisplayState() {
+  displayState.previousOrientation = displayState.currentOrientation;
+	if (windowWidth > windowHeight){
     displayState.currentOrientation = 'landscape';
-  else
-    displayState.currentOrientation = 'portrait';
-
-  if(instrumentImage){
-    displayState.drawScale = windowWidth / instrumentImage.width;
-    displayState.drawOffset.y = windowHeight / 2 - instrumentImage.height * displayState.drawScale / 2; 
-    displayState.drawSize.x = windowWidth;
-    displayState.drawSize.y = instrumentImage.height * displayState.drawScale;
-  }
-}
-
-
-function setColorState(c){
-  currentColor = c;
-  if (currentColor._getSaturation() > 20) {
-    currentHue = parseInt(currentColor._getHue());
-  }
+  } 
   else {
-    currentHue = -1;
+    displayState.currentOrientation = 'portrait';
   }
+
+	if (instrumentImage) {
+		displayState.drawScale = windowWidth / instrumentImage.width;
+		displayState.drawOffset.y = windowHeight / 2 - instrumentImage.height * displayState.drawScale / 2;
+		displayState.drawSize.x = windowWidth;
+		displayState.drawSize.y = instrumentImage.height * displayState.drawScale;
+	}
 }
 
+function setColorState(c) {
+	currentColor = c;
+	if (currentColor._getSaturation() > 20) {
+		currentHue = parseInt(currentColor._getHue());
+	}
+	else {
+		currentHue = -1;
+	}
+}
 
 //------------DRAW------------------------------------------------------------
 function draw() {
-  //run update
-  update();
+	//run update
+	update();
 
-  //prepare canvas
-  // clear();
-  resizeCanvas(windowWidth, windowHeight);
-  canvas.position(0, 0);
+	//prepare canvas
+	// clear();
+	resizeCanvas(windowWidth, windowHeight);
+	canvas.position(0, 0);
 
-  fillBg();
-  
-  if(state == 'loading'){
-    //do something....
-  }
-  else if(state == 'ready'){
-    fill(255);
-    image(instrumentImage, displayState.drawOffset.x, displayState.drawOffset.y, displayState.drawSize.x, displayState.drawSize.y);
-    
-    if(drawMask)
-      image(maskImage, displayState.drawOffset.x, displayState.drawOffset.y, displayState.drawSize.x, displayState.drawSize.y);
-  }
+	fillBg();
 
-  drawTouch();
+	if (state == 'loading') {
+		//do something....
+	}
+	else if (state == 'ready') {
+		fill(255);
+		image(
+			instrumentImage,
+			displayState.drawOffset.x,
+			displayState.drawOffset.y,
+			displayState.drawSize.x,
+			displayState.drawSize.y
+		);
+
+		if (drawMask)
+			image(
+				maskImage,
+				displayState.drawOffset.x,
+				displayState.drawOffset.y,
+				displayState.drawSize.x,
+				displayState.drawSize.y
+			);
+	}
+
+	drawTouch();
 }
-
-
 
 function fillBg() {
 	if (isPressed && currentHue >= 0) {
@@ -215,38 +216,55 @@ function fillBg() {
 	}
 }
 
-
-function drawTouch(){
-  if (mouseX > 10 && mouseX < width - 10 && (mouseY > 10 && mouseY < height - 10)) {
-    let ellipseWidth = mouseIsPressed ? 70 : 0;
-    stroke(240, 100);
-    strokeWeight(5);
-    fill(currentColor);
-    ellipse(mouseX, mouseY, ellipseWidth);
-  }
+function drawTouch() {
+	if (mouseX > 10 && mouseX < width - 10 && (mouseY > 10 && mouseY < height - 10)) {
+		let ellipseWidth = mouseIsPressed ? 70 : 0;
+		stroke(240, 100);
+		strokeWeight(5);
+		fill(currentColor);
+		ellipse(mouseX, mouseY, ellipseWidth);
+	}
 }
-
 
 //------------INTERACTION------------------------------------------------------------
 //pick colour from mask
 function getColor() {
 	let foundColor = color(
-		...maskImage.get((mouseX - displayState.drawOffset.x) / maskImageScale / displayState.drawScale, (mouseY - displayState.drawOffset.y) / maskImageScale / displayState.drawScale)
+		...maskImage.get(
+			(mouseX - displayState.drawOffset.x) / maskImageScale / displayState.drawScale,
+			(mouseY - displayState.drawOffset.y) / maskImageScale / displayState.drawScale
+		)
 	);
 	return foundColor;
 }
 
 ///ONTOUCH
-function go() { isPressed = true; }
+function go() {
+  if (Tone.context.state != 'running') {
+    console.log('starting tone.js');
+    Tone.start();
+  }
+	isPressed = true;
+}
 
 ///ON RELEASE
-function stop(){ isPressed = false; }
+function stop() {
+	isPressed = false;
+}
 
 //fuse touches and mouse clicks
-function mousePressed(){ go(); }
-function touchStarted(){ go(); }
-function mouseReleased(){ stop(); }
-function touchEnded(){ stop(); }
+function mousePressed() {
+	go();
+}
+function touchStarted() {
+	go();
+}
+function mouseReleased() {
+	stop();
+}
+function touchEnded() {
+	stop();
+}
 
 function loadPrev() {
 	console.log('loading previous');
@@ -262,6 +280,62 @@ function loadNext() {
 	loadInstrument();
 }
 
+//------------RADIO------------------------------------------------------------
+function setRadioClassical() {
+	clearRadioButtons();
+	document.getElementById('radio-classical').style.backgroundColor = radioOnColor;
+	if (radioPlayer != null) radioPlayer.dispose();
+	radioPlayer = new Tone.Player('samples/radio/classical.mp3').toMaster();
+	radioPlayer.autostart = true;
+	radioPlayer.loop = true;
+}
+
+function setRadioJazz() {
+	clearRadioButtons();
+	document.getElementById('radio-jazz').style.backgroundColor = radioOnColor;
+	if (radioPlayer != null) radioPlayer.dispose();
+	radioPlayer = new Tone.Player('samples/radio/jazz.mp3').toMaster();
+	radioPlayer.autostart = true;
+	radioPlayer.loop = true;
+}
+
+function setRadioRock() {
+	clearRadioButtons();
+	document.getElementById('radio-rock').style.backgroundColor = radioOnColor;
+	if (radioPlayer != null) radioPlayer.dispose();
+	radioPlayer = new Tone.Player('samples/radio/rock.mp3').toMaster();
+	radioPlayer.autostart = true;
+	radioPlayer.loop = true;
+}
+
+function setRadioDance() {
+	clearRadioButtons();
+	document.getElementById('radio-dance').style.backgroundColor = radioOnColor;
+	if (radioPlayer != null) radioPlayer.dispose();
+	radioPlayer = new Tone.Player('samples/radio/dance.mp3').toMaster();
+	radioPlayer.autostart = true;
+	radioPlayer.loop = true;
+}
+
+function setRadioOff() {
+	if (radioPlayer != null) radioPlayer.stop();
+	clearRadioButtons();
+	document.getElementById('radio-off').style.backgroundColor = radioOnColor;
+}
+
+function clearRadioButtons() {
+	document.getElementById('radio-off').style.backgroundColor = radioOffColor;
+	document.getElementById('radio-jazz').style.backgroundColor = radioOffColor;
+	document.getElementById('radio-rock').style.backgroundColor = radioOffColor;
+	document.getElementById('radio-classical').style.backgroundColor = radioOffColor;
+	document.getElementById('radio-dance').style.backgroundColor = radioOffColor;
+}
+
 document.getElementById('button-next').onclick = loadNext;
 document.getElementById('button-prev').onclick = loadPrev;
 
+document.getElementById('radio-off').onclick = setRadioOff;
+document.getElementById('radio-classical').onclick = setRadioClassical;
+document.getElementById('radio-jazz').onclick = setRadioJazz;
+document.getElementById('radio-rock').onclick = setRadioRock;
+document.getElementById('radio-dance').onclick = setRadioDance;
