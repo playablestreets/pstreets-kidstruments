@@ -33,6 +33,7 @@ let sounds = [];
 
 //------------SETUP------------------------------------------------------------
 function setup() {
+  setInfoText('loading...');
 	//send for kidstruments
   getApi(this); //returns to setKidstruments()
   
