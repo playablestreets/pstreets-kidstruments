@@ -198,6 +198,8 @@ function draw() {
     if(drawMask)
       image(maskImage, displayState.drawOffset.x, displayState.drawOffset.y, displayState.drawSize.x, displayState.drawSize.y);
   }
+
+  drawTouch();
 }
 
 
@@ -211,6 +213,17 @@ function fillBg() {
 	else {
 		background(255, 100);
 	}
+}
+
+
+function drawTouch(){
+  if (mouseX > 10 && mouseX < width - 10 && (mouseY > 10 && mouseY < height - 10)) {
+    let ellipseWidth = mouseIsPressed ? 70 : 0;
+    stroke(240, 100);
+    strokeWeight(5);
+    fill(currentColor);
+    ellipse(mouseX, mouseY, ellipseWidth);
+  }
 }
 
 
