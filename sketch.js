@@ -1,17 +1,30 @@
 let state = 'loading';
 let instruments;
 let currentInstrument = 0;
+let currentInstrumentName = '';
 
 let instrumentImage;
 let maskImage;
 let maskImageScale = 8;
-let drawScale = 1;
-let aspect = 1;
+// let drawScale = 1;
+// let aspect = 1;
 
-let offset = [0, 0];
+// let offset = [0, 0];
 
-let currentOrientation = 'protrait';
-let prevOrientation = 'portrait';
+
+let displayState = {
+  currentOrientation: 'protrait',
+  previousOrientation: 'portrait',
+  drawScale: 1,
+  drawOffset: {
+    x: 0,
+    y: 0
+  },
+  drawSize: {
+    x: 1,
+    y: 1
+  }
+}
 // let isTurned = false;
 // let prevWidth;
 
@@ -22,15 +35,11 @@ function setup() {
   //send for kidstruments
   getApi(this); //returns to setKidstruments()
   
-  // if (window.DeviceOrientationEvent) {
-  //   window.addEventListener('deviceorientation', onOrientationChange);  
-  // }
-
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0);
   
-  getDisplayState();
-  prevOrientation = currentOrientation;
+  setDisplayState();
+  displayState.previousOrientation = displayState.currentOrientation;
 
   textSize(100);
 }
@@ -45,9 +54,9 @@ function setKidstruments(data) {
 		inst.index = i++;
 	} );
 
-	// currentInstrument = int(random() * instruments.length);
-	// console.log(instruments);
-	// instruments = shuffle(instruments);
+	currentInstrument = int(random() * instruments.length);
+	console.log(instruments);
+	instruments = shuffle(instruments);
 	// instrumentsFound = true;
 
 	// let urlName = getUrlName();
@@ -63,9 +72,6 @@ function setKidstruments(data) {
 
 
 	loadInstrument();
-
-	//resize window to init
-	// windowResized();
 }
 
 
@@ -106,18 +112,25 @@ function loadInstrument() {
 function update(){
 
   // check orientation
-  getDisplayState();
-  if(currentOrientation != prevOrientation){
+  setDisplayState();
+  if(displayState.currentOrientation != displayState.previousOrientation){
     location.reload();
     // location.replace("http://zeal.co"); //do this instead, naviagting to current instrument
   }
 }
 
-function getDisplayState(){
+function setDisplayState(){
   if(windowWidth > windowHeight)
-    currentOrientation = 'landscape';
+    displayState.currentOrientation = 'landscape';
   else
-    currentOrientation = 'portrait';
+    displayState.currentOrientation = 'portrait';
+
+  if(instrumentImage){
+    displayState.drawScale = windowWidth / instrumentImage.width;
+    displayState.drawOffset.y = windowHeight / 2 - instrumentImage.height * displayState.drawScale / 2; 
+    displayState.drawSize.x = windowWidth;
+    displayState.drawSize.y = instrumentImage.height * displayState.drawScale;
+  }
 }
 
 
@@ -127,36 +140,17 @@ function draw() {
   update();
 
   //prepare canvas
-  // fullscreen(true);
   clear();
-
   resizeCanvas(windowWidth, windowHeight);
-  
   canvas.position(0, 0);
 
-  background(color(255));
+  // background(color(255));
 
   if(state == 'loading'){
     text(state, width/2, height/2);
   }
   else if(state == 'ready'){
-    // image(instrumentImage, offset[0] , offset[1], instrumentImage.width, instrumentImage.height);
-    image(instrumentImage, offset[0] , offset[1], windowWidth, windowHeight);
-    // console.log(state);
-    // image(instrumentImage, 0, 0, 100, 100);
+    image(instrumentImage, displayState.drawOffset.x, displayState.drawOffset.y, displayState.drawSize.x, displayState.drawSize.y);
   }
   
-  // text(currentOrientation, width/2, height/2);
-  text(windowWidth, width/2, height/2);
-  text(windowHeight, width/2, height/2+80);
-
 }
-
-
-
-// function onOrientationChange(e) {
-//   alpha = e.alpha;
-//   beta = e.beta;
-//   gamma = e.gamma;
-//   console.log(alpha + " " + beta + " " + gamma);
-// }
