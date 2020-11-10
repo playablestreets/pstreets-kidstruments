@@ -90,7 +90,6 @@ video {
 	font-size: 100%;
 	font: inherit;
   vertical-align: baseline;
-  touch-action: none;
 
 }
 /* HTML5 display-role reset for older browsers */
@@ -106,24 +105,20 @@ menu,
 nav,
 section {
   display: block;
-  touch-action: none;
 
 }
 body {
   line-height: 1;
-  touch-action: none;
 
 }
 ol,
 ul {
   list-style: none;
-  touch-action: none;
 
 }
 blockquote,
 q {
   quotes: none;
-  touch-action: none;
 
 }
 blockquote:before,
@@ -136,7 +131,6 @@ q:after {
 table {
 	border-collapse: collapse;
   border-spacing: 0;
-  touch-action: none;
 
 }
 
@@ -156,7 +150,13 @@ table {
 	color: rgb(236, 236, 236);
 	/* box-sizing: border-box; */
   font-family: Arial, Helvetica, sans-serif;
-  touch-action: none;
+}
+
+*{
+	touch-action: none;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+	-webkit-user-select: none;	
 }
 
 body {
@@ -176,13 +176,15 @@ canvas {
 	top: 0;
 	left: 0;
   overflow: hidden;
-  z-index: -1;
-  touch-action: none;
+	z-index: -1;
+	touch-action: none;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+	-webkit-user-select: none;
 }
 
 p {
   /* margin: 0; */
-  touch-action: none;
 }
 
 .button {
@@ -203,7 +205,6 @@ p {
 	text-align: center;
 	font-weight: bolder;
   box-shadow: 0px 0px 4px rgb(249, 183, 255);
-  touch-action: none;
 	/* outline: 5px white dotted;  inner stroke */
 	/* outline-offset: -5px;  negative border width + outline width */
 }
@@ -219,7 +220,6 @@ p {
 	border-radius: 5px;
 	height: auto;
   width: 45px;
-  touch-action: none;
 
 }
 
@@ -229,7 +229,6 @@ p {
 	/* background-color: red; */
 	justify-content: center;
   flex-wrap: wrap;
-  touch-action: none;
 }
 
 .icon {
@@ -239,22 +238,18 @@ p {
 	height: 80px;
 	margin: 10px;
   border-style: none;
-  touch-action: none;
 }
 
 .button:hover {
   background-color: #fa9ffa;
-  touch-action: none;
 }
 .button:active {
   background-color: #f6cff7;
-  touch-action: none;
 	/* font-size: 28px; */
 	/* border-width: 10px; */
 }
 
 .info {
-  touch-action: none;
 
 	width: 400px;
 	margin: auto;
@@ -268,7 +263,6 @@ p {
 
 
 .ui{
-  touch-action: none;
 	position: absolute;
 	width: 100%;
   
@@ -282,7 +276,6 @@ p {
 }
 
 .ui-top{
-  touch-action: none;
 	position: static;
 	top: 0;
 	background-color: #FFFFFF00;
@@ -290,7 +283,6 @@ p {
 
 
 .ui-radio{
-  touch-action: none;
 	position: absolute;
 	width: 80vw;
 	/* bottom: 5vh;
@@ -305,7 +297,6 @@ p {
 }
 
 .nav{
-  touch-action: none;
 	/* position: absolute; */
 	width: 80vw;
 	/* bottom: 5vh;
@@ -320,7 +311,6 @@ p {
 }
 
 .bg {
-  touch-action: none;
 	position: absolute;
 	/* top: 10%; */
 	margin: 0;
