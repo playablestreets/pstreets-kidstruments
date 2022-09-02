@@ -1,25 +1,25 @@
 var beatpack = [
 	{
-		name: "2Stroke",
-		artist: "Bones - Prod. Niq Venus",
+		name: "classic",
+		artist: "unknown",
 		src: "./samples/radio/classical.mp3",
 		thumbnail: "url(https://images.pexels.com/photos/1255149/pexels-photo-1255149.jpeg)"
 	},
 	{
-		name: 'Playboi Carti type beat "Jaded"',
-		artist: "Niq Venus",
+		name: "dance",
+		artist: "unknown",
 		src: "./samples/radio/dance.mp3",
 		thumbnail: "url(https://images.pexels.com/photos/4487521/pexels-photo-4487521.jpeg)"
 	},
 	{
-		name: 'Roddy Ricch type beat "HERO"',
-		artist: "Niq Venus",
+		name: "jazz",
+		artist: "unknown",
 		src: "./samples/radio/jazz.mp3",
 		thumbnail: "url(https://images.pexels.com/photos/4337198/pexels-photo-4337198.jpeg)"
 	},
 	{
-		name: "Reeses Puffs",
-		artist: "Niq Venus",
+		name: "rock",
+		artist: "unknown",
 		src: "./samples/radio/rock.mp3",
 		thumbnail: "url(https://images.pexels.com/photos/2894944/pexels-photo-2894944.jpeg)"
 	}
