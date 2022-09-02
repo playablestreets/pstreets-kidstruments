@@ -322,3 +322,103 @@ p {
 	z-index: -1;
 	overflow: hidden;
 }
+
+
+
+
+/* added--Gujie */
+html,
+body {
+	background-color: #dfe7ef;
+	align-items: center;
+	justify-content: center;
+	font-family: "Montserrat", sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.thumbnail {
+	width: 80px;
+	height: 80px; 
+	border-radius: 50%;
+	background: url("https://images.pexels.com/photos/1255149/pexels-photo-1255149.jpeg");
+	background-repeat: no-repeat;
+	background-position: bottom center;
+	background-size: cover;
+}
+
+.player .circle {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px;
+}
+.player .circle .active {
+	text-transform: uppercase;
+	animation-name: example;
+	animation: record 3s linear 0s infinite forwards;
+}
+@keyframes record {
+	0% {
+		transform: rotateZ(0deg);
+	}
+	100% {
+		transform: rotateZ(360deg);
+	}
+}
+
+
+.player .player-control {
+	width: 600px;
+	text-align: center;
+	position: absolute;
+}
+
+.player .player-control #play {
+	border-radius: 50%;
+}
+
+.player .player-control i {
+	padding: 6px;
+	font-size: 24px;
+	cursor: pointer;
+	text-align: center;
+}
+
+.play-btn:before {
+	border-radius: 50%;
+	color: rgb(255, 70, 70);
+	background-color: white;
+	padding: 4px;
+}
+
+.play-btn:hover:before {
+	filter: saturate(10);
+}
+
+.pause-btn:before {
+	border-radius: 50%;
+	color: rgb(255, 70, 70);
+	background-color: white;
+	padding: 4px;
+}
+.pause-btn:hover:before {
+	filter: saturate(10);
+}
+.next-btn:before {
+	color: rgb(255, 255, 255);
+	padding: 18px;
+}
+.next-btn:hover:before {
+	color: rgb(255, 70, 70);
+	padding: 18px;
+}
+.prev-btn:before {
+	color: rgb(255, 255, 255);
+	padding: 18px;
+}
+.prev-btn:hover:before {
+	color: rgb(255, 70, 70);
+	padding: 18px;
+}
+
+/* added--Gujie */

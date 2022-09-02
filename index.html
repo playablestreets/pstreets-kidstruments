@@ -15,6 +15,8 @@
     }
   </style>
   <!-- <script src="./lib/p5.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- added--Gujie -->
   <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.68/Tone.js" integrity="sha512-eBjUIAF/NN5kcGlFXz5n9UMAv+LKYFqtGnqHu83qQCXRJaL6iSsjFeOdft9AK9lD/9meTkj/5ctn6DGV5rz6Pg==" crossorigin="anonymous"></script>
   <!-- <script src="./lib/Tone.js"></script> -->
@@ -29,12 +31,24 @@
       <img src="assets/home01.svg" alt="back to web icon" class=" icon" />
     </a>
 
-    <div class="radio-container">
+    <!-- <div class="radio-container">
     <div class="button radio" id="radio-classical">class.</div>
     <div class="button radio" id="radio-rock">rock</div>
     <div class="button radio" id="radio-jazz">jazz</div>
     <div class="button radio" id="radio-dance">dance</div>
     <div class="button radio" id="radio-off">off</div>
+    </div> -->
+
+    <!-- added--Gujie -->
+    <div class="player">
+      <div class="circle">
+        <div id="thumbnail" class="thumbnail"></div>
+        <div class="player-control">
+          <i id="prev" class="prev-btn fas fa-backward"></i>
+          <i id="play" class="play-btn fas fa-play-circle"></i>
+          <i id="next" class="next-btn fas fa-forward"></i>
+        </div>
+      </div>
     </div>
 
     <a href="https://form.jotform.com/202537215756052" alt="do it yourself">
@@ -59,6 +73,8 @@
   </div>
 
 </body>
+<script  src="./player.js"></script>
+<!-- added--Gujie -->
 <script src="util.js"></script>
 <script src="sample-library.js"></script>
 <script src="xylophone.js"></script>
