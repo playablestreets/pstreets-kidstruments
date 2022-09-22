@@ -1,10 +1,10 @@
-class Harp{
+class Chords{
   constructor(){
     this.lastNote = "";
     this.isLoaded = false;
-    this.notes = ["C4",  "F#4", "E4", "G4",  "B4", "A4", "D5", "C5", "E5",  "G5", "F#5", "A5", "B5", "D6"];
+    this.notes = ["C2",  "F#2", "E2", "G2",  "B2", "A2", "D3", "C3", "E3",  "G3", "F#3", "A3", "B3"];
     this.sound = SampleLibrary.load({
-      instruments: "harp"
+      instruments: "chords"
     });
     this.sound.toMaster();
     // console.log(this.sound);
@@ -12,6 +12,7 @@ class Harp{
 
 
   play(){
+    // console.log('chords');
     // let note = getNormMouse()
     let note = parseInt((getNormMouse().x + getNormMouse().y) * this.notes.length);
     note %= this.notes.length - 1;

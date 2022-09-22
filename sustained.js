@@ -1,12 +1,14 @@
-class Xylophone{
+class Sustained{
   constructor(){
     this.lastNote = "";
     this.isLoaded = false;
-    this.notes = ["C4", "E4", "F#4", "G4", "A4", "B4", "D5", "C5", "E5", "F#5", "G5", "A5", "B5", "D6"];
+    this.notes = ["C2",  "F#2", "E2", "G2",  "B2", "A2", "D3", "C3", "E3",  "G3", "F#3", "A3", "B5"];
     this.sound = SampleLibrary.load({
-      instruments: "xylophone"
+      instruments: "sustained"
     });
-    this.sound.toMaster();
+    const gainNode =  new Tone.Gain(0.3)
+    gainNode.toMaster();
+    this.sound.connect(gainNode);
     // console.log(this.sound);
   }
 

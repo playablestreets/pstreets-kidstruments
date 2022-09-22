@@ -38,17 +38,17 @@ function setup() {
   getApi(this); //returns to setKidstruments()
   
   //set up sounds
-	let sound = new Xylophone();
+	let sound = new Bleep();
 	sounds.push(sound);
-	sound = new Harp();
+	sound = new Chords();
 	sounds.push(sound);
-	sound = new Tuba();
+	sound = new FX();
 	sounds.push(sound);
-	sound = new SliderSynth();
+	sound = new Piano();
 	sounds.push(sound);
-	sound = new Drums();
+	sound = new Perc();
 	sounds.push(sound);
-	sound = new Fart();
+	sound = new Sustained();
 	sounds.push(sound);
 
 	canvas = createCanvas(windowWidth, windowHeight);
