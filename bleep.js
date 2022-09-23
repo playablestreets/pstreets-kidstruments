@@ -14,7 +14,7 @@ class Bleep{
 
 
   play(){
-    console.log('bleep');
+    // console.log('bleep');
     // let note = getNormMouse()
     let note = parseInt((getNormMouse().x + getNormMouse().y) * this.notes.length);
     note %= this.notes.length - 1;
