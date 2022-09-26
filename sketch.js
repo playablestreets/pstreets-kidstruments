@@ -117,6 +117,9 @@ function loadInstrument() {
 
 function setInfoText(text) {
 	document.getElementById('info').innerHTML = text;
+	// for small screen added Gujie
+	document.getElementById('info-s').innerHTML = text;
+	// for small screen
 }
 
 function setState(newState) {
@@ -396,6 +399,11 @@ function clearRadioButtons() {
 
 document.getElementById('button-next').onclick = loadNext;
 document.getElementById('button-prev').onclick = loadPrev;
+
+// for small screen added Gujie
+document.getElementById('button-next-s').onclick = loadNext;
+document.getElementById('button-prev-s').onclick = loadPrev;
+// for small screen
 
 document.getElementById('radio-off').onclick = setRadioOff;
 document.getElementById('radio-classical').onclick = setRadioClassical;
