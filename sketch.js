@@ -38,17 +38,17 @@ function setup() {
   getApi(this); //returns to setKidstruments()
   
   //set up sounds
-	let sound = new Xylophone();
+	let sound = new Bleep();
 	sounds.push(sound);
-	sound = new Harp();
+	sound = new Chords();
 	sounds.push(sound);
-	sound = new Tuba();
+	sound = new FX();
 	sounds.push(sound);
-	sound = new SliderSynth();
+	sound = new Piano();
 	sounds.push(sound);
-	sound = new Drums();
+	sound = new Perc();
 	sounds.push(sound);
-	sound = new Fart();
+	sound = new Sustained();
 	sounds.push(sound);
 
 	canvas = createCanvas(windowWidth, windowHeight);
@@ -117,6 +117,9 @@ function loadInstrument() {
 
 function setInfoText(text) {
 	document.getElementById('info').innerHTML = text;
+	// for small screen added Gujie
+	document.getElementById('info-s').innerHTML = text;
+	// for small screen
 }
 
 function setState(newState) {
@@ -396,6 +399,11 @@ function clearRadioButtons() {
 
 document.getElementById('button-next').onclick = loadNext;
 document.getElementById('button-prev').onclick = loadPrev;
+
+// for small screen added Gujie
+document.getElementById('button-next-s').onclick = loadNext;
+document.getElementById('button-prev-s').onclick = loadPrev;
+// for small screen
 
 document.getElementById('radio-off').onclick = setRadioOff;
 document.getElementById('radio-classical').onclick = setRadioClassical;

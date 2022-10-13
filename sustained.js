@@ -1,30 +1,32 @@
-class Tuba{
+class Sustained{
   constructor(){
     this.lastNote = "";
     this.isLoaded = false;
-    this.notes = ["C1", "G1", "D2", "C2", "G1", "D2", "C2", "G2", "D3", "C3", "G2", "D3"];
+    this.notes = ["C2",  "F#2", "E2", "G2",  "B2", "A2", "D3", "C3", "E3",  "G3", "F#3", "A3", "B5"];
     this.sound = SampleLibrary.load({
-      instruments: "tuba"
+      instruments: "sustained"
     });
-    this.sound.curve = "exponential";
-    this.sound.toMaster();
+    const gainNode =  new Tone.Gain(0.3)
+    gainNode.toMaster();
+    this.sound.connect(gainNode);
     // console.log(this.sound);
   }
+
 
   play(){
     // let note = getNormMouse()
     let note = parseInt((getNormMouse().x + getNormMouse().y) * this.notes.length);
     note %= this.notes.length - 1;
     note = this.notes[note];
-    // console.log(note);
     if(note != this.lastNote && note != null){
-      this.sound.triggerAttackRelease(note, 1);
+      this.sound.triggerAttackRelease(note, 5);
       this.lastNote = note;
     }
   }
 
   stop(){
+    // console.log("release the tuba");
     this.lastNote = "";
-    this.sound.releaseAll(4);
+    this.sound.releaseAll(5);
   }
 }

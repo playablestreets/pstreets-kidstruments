@@ -7,7 +7,7 @@
   <meta name="viewport" content=" initial-scale=1.0">
     <!-- <meta name=”viewport” content=”width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no” /> -->
   <script src="https://kit.fontawesome.com/eec66458b0.js" crossorigin="anonymous"></script>
-  <title>Kidstruments 4.0</title>
+  <title>Kidstruments 5.0</title>
   <style>
     body {
       padding: 0;
@@ -15,6 +15,8 @@
     }
   </style>
   <!-- <script src="./lib/p5.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- added--Gujie -->
   <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.68/Tone.js" integrity="sha512-eBjUIAF/NN5kcGlFXz5n9UMAv+LKYFqtGnqHu83qQCXRJaL6iSsjFeOdft9AK9lD/9meTkj/5ctn6DGV5rz6Pg==" crossorigin="anonymous"></script>
   <!-- <script src="./lib/Tone.js"></script> -->
@@ -24,48 +26,136 @@
 <body>
   <main>
   </main>
-  <div class="ui ui-top">
-    <a href="http://playableweb.com" alt="back to web">
-      <img src="assets/home01.svg" alt="back to web icon" class=" icon" />
-    </a>
 
-    <div class="radio-container">
-    <div class="button radio" id="radio-classical">class.</div>
-    <div class="button radio" id="radio-rock">rock</div>
-    <div class="button radio" id="radio-jazz">jazz</div>
-    <div class="button radio" id="radio-dance">dance</div>
-    <div class="button radio" id="radio-off">off</div>
+  <div class="parent">
+    <div class="div1">
+      <a href="http://playableweb.com" alt="back to web">
+        <img src="assets/home01.svg" alt="back to web icon" class=" icon" />
+      </a>
     </div>
-
-    <a href="https://form.jotform.com/202537215756052" alt="do it yourself">
-      <img src="assets/DIY.svg" alt="do it yourself icon" class=" icon" />
-    </a>
-  </div>
-
-  <div class="ui">
-    <div></div>
-    <div class="nav">
-      <div class="button previous" id="button-prev">
-        <i class="fas fa-chevron-left"></i>
-      </div>
-
-      <div class="info" id="info"></div>
-
-      <div class="button next" id="button-next">
-        <i class="fas fa-chevron-right"></i>
+    <div class="div2">
+      <div class="player">
+        <div class="circle">
+          <div id="thumbnail" class="thumbnail"></div>
+          <div class="player-control">
+            <i id="prev" class="prev-btn fas fa-backward"></i>
+            <i id="play" class="play-btn fas fa-play-circle"></i>
+            <i id="next" class="next-btn fas fa-forward"></i>
+          </div>
+        </div>
       </div>
     </div>
-    <div></div>
+    <div class="div3">
+      <a href="https://form.jotform.com/202537215756052" alt="do it yourself">
+        <img src="assets/DIY.svg" alt="do it yourself icon" class=" icon" />
+      </a>
+    </div>
+    
+    <div class="div4"></div>
+
+    <div class="div5">
+      <div class="ui">
+
+
+          <div class="button previous" id="button-prev">
+            <i class="fas fa-chevron-up"></i>
+        </div>
+        
+
+
+          <div class="info" id="info"></div>
+
+
+          <div class="button next" id="button-next">
+            <i class="fas fa-chevron-down"></i>
+          </div>
+
+
+      </div>
+
+      <div class="ui-s">
+        <div class="button previous" id="button-prev-s">
+          <i class="fas fa-chevron-left"></i>
+      </div>
+      
+        <div class="info-s" id="info-s"></div>
+
+        <div class="button next" id="button-next-s">
+          <i class="fas fa-chevron-right"></i>
+        </div>
+    </div>
+
+
+    </div>
+
+    <div class="div6"></div>
+    <div class="div7"></div>
+
   </div>
+
+
+<!-- for small svreen -->
+  <!-- <div class="parent-s">
+    <div class="div11">
+      <a href="http://playableweb.com" alt="back to web">
+        <img src="assets/home01.svg" alt="back to web icon" class=" icon" />
+      </a>
+    </div>
+    <div class="div22">
+      <div class="player">
+        <div class="circle">
+          <div id="thumbnail" class="thumbnail"></div>
+          <div class="player-control">
+            <i id="prev" class="prev-btn fas fa-backward"></i>
+            <i id="play" class="play-btn fas fa-play-circle"></i>
+            <i id="next" class="next-btn fas fa-forward"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="div33">
+      <a href="https://form.jotform.com/202537215756052" alt="do it yourself">
+        <img src="assets/DIY.svg" alt="do it yourself icon" class=" icon" />
+      </a>
+    </div>
+    
+    <div class="div44"></div>
+
+    <div class="div55">
+      <div class="ui-s">
+        <div class="nav">
+          <div class="button previous" id="button-prev-s">
+            <i class="fas fa-chevron-left"></i>
+          </div>
+
+          <div class="info-s" id="info-s"></div>
+
+          <div class="button next" id="button-next-s">
+            <i class="fas fa-chevron-right"></i>
+          </div>
+      </div>
+    </div>
+
+  </div>
+</div> -->
+
+
 
 </body>
+
+<script  src="player.js"></script>
+<!-- added--Gujie -->
 <script src="util.js"></script>
+
 <script src="sample-library.js"></script>
-<script src="xylophone.js"></script>
-<script src="tuba.js"></script>
-<script src="SliderSynth.js"></script>
-<script src="drums.js"></script>
-<script src="Fart.js"></script>
-<script src="Harp.js"></script>
+<script src="bleep.js"></script>
+<script src="chords.js"></script>
+<script src="fart.js"></script>
+<script src="fx.js"></script>
+<script src="perc.js"></script>
+<script src="piano.js"></script>
+<script src="sustained.js"></script>
+
+
 <script src="sketch.js"></script>
 </html>

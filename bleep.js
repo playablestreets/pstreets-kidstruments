@@ -1,17 +1,20 @@
-class Harp{
+class Bleep{
   constructor(){
     this.lastNote = "";
     this.isLoaded = false;
-    this.notes = ["C4",  "F#4", "E4", "G4",  "B4", "A4", "D5", "C5", "E5",  "G5", "F#5", "A5", "B5", "D6"];
+    this.notes = ["D3", "C3", "E3",  "G3", "F#3", "A3", "B3", "D4", "D3", "C3", "E3",  "G3", "F#3", "A3", "B3", "D4"];
     this.sound = SampleLibrary.load({
-      instruments: "harp"
+      instruments: "bleep"
     });
-    this.sound.toMaster();
+    const gainNode =  new Tone.Gain(0.5)
+    gainNode.toMaster();
+    this.sound.connect(gainNode);
     // console.log(this.sound);
   }
 
 
   play(){
+    // console.log('bleep');
     // let note = getNormMouse()
     let note = parseInt((getNormMouse().x + getNormMouse().y) * this.notes.length);
     note %= this.notes.length - 1;
@@ -23,7 +26,6 @@ class Harp{
   }
 
   stop(){
-    // console.log("release the tuba");
     this.lastNote = "";
     this.sound.releaseAll(5);
   }
