@@ -37,18 +37,23 @@ function setup() {
 	//send for kidstruments
   getApi(this); //returns to setKidstruments()
   
-  //set up sounds
-	let sound = new Bleep();
+  	//set up sounds
+  	let sound = new Sustained();
+  	sounds.push(sound);
+
+  	sound = new Bleep();
 	sounds.push(sound);
-	sound = new Chords();
-	sounds.push(sound);
-	sound = new FX();
-	sounds.push(sound);
+
 	sound = new Piano();
 	sounds.push(sound);
+
 	sound = new Perc();
 	sounds.push(sound);
-	sound = new Sustained();
+
+	sound = new FX();
+	sounds.push(sound);
+
+	sound = new Chords();
 	sounds.push(sound);
 
 	canvas = createCanvas(windowWidth, windowHeight);
@@ -169,9 +174,58 @@ function update() {
     stopSound();
 }
 
+function getSynthFromHue(hue){
+  //hues :
+  // orange 24
+  // yellow 57
+  // green 113
+  // blue 240
+  // purple 297
+  // red 356
+
+
+	activeSynth = 0;
+
+	//orange
+	if( hue > 10 && hue <= 30){
+		activeSynth = 1;
+	}
+	
+	//yellow
+	if( hue > 30 && hue <= 70){
+		activeSynth = 2;
+	}
+
+	//green
+	if( hue > 70 && hue <= 200){
+		activeSynth = 3;
+	}
+
+	//blue
+	if( hue > 200 && hue <= 260){
+		activeSynth = 4;
+	}
+
+	//purple
+	if( hue > 260 && hue <= 320){
+		activeSynth = 5;
+	}	
+
+	//red
+	//default
+
+	return activeSynth;
+
+}
+
 
 function startSound(){
-  activeSynth = parseInt(map(currentHue, 0, 360, 0, sounds.length));
+
+  activeSynth = getSynthFromHue(currentHue);
+//   activeSynth = parseInt(map(currentHue, 0, 360, 0, sounds.length)); 
+//   console.log("activeSynth: " + activeSynth);
+   
+
   let i = 0;
 
   sounds.forEach((sound) => {
